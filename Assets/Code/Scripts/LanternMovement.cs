@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.Pipes;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LampionMovement : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class LampionMovement : MonoBehaviour
 
     [SerializeField]
     float distance_to_activate = 10;
+
+    [SerializeField]
+    float floating_constant = 10;
 
 
 
@@ -56,7 +60,7 @@ public class LampionMovement : MonoBehaviour
 
                 break;
             case LampionState.FLOATING:
-
+                LanterFloating();
                 break;
         }
 
@@ -67,13 +71,22 @@ public class LampionMovement : MonoBehaviour
     void MoveLantern()
     {
         time += Time.deltaTime;
-        float position = max_height * curve.Evaluate(time / max_time);
-        transform.position = new Vector3(transform.position.x, position, transform.position.z);
+        Vector3 new_position = new Vector3(transform.position.x, max_height * curve.Evaluate(time / max_time), transform.position.z);
+        transform.position = new_position;
         if (time / max_time >= 1.0f)
         {
             this.state = LampionState.FLOATING;
+            time = Time.time;
         }
         return;
     }
+
+
+    void LanterFloating()
+    {
+        Vector3 new_position = new Vector3(transform.position.x, (float)(max_height + Math.Sin((Time.time - time)*floating_constant)), transform.position.z);
+        this.transform.position = new_position;
+    }
+
 
 }
