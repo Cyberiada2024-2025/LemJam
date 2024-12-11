@@ -51,10 +51,10 @@ public class LampionMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Transform kok = GameManager.Instance.player;
+        Transform kok = GameManager.Instance.player.transform;
         switch (state) { 
             case LampionState.PRESPAWN:
-                if(transform.position.z - GameManager.Instance.player.position.z <= distance_to_activate)
+                if(transform.position.z - kok.position.z <= distance_to_activate)
                 {
                     state = LampionState.RISING;
                 }
