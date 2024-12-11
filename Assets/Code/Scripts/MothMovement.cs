@@ -9,6 +9,9 @@ public class MothMovement : MonoBehaviour
     private float currentRotation = 0;  // obrót tylko w osi w której ćma leci - w zakresie [-1, 1]. Wpływa na prędkość ruchu w tym kierunku
     public float MaxRotation = 30;  // w stopniach, tylko graficzne (nie wpływa na mechanikę lotu)
 
+    private float CurrentEnergy = 50;
+    public float MaxEnergy = 100;
+    public float RechargingSpeedFactor = 1.0f;
 
     public float ForwardSpeed = 1;
     public float MaxHorizontalSpeed = 50;
@@ -25,6 +28,11 @@ public class MothMovement : MonoBehaviour
 
     public float GlidingSpeed = -0.5f; // prędkość (pionowa) szybowania. Jeśli spada szybciej niż to, to będzie hamował do tej prędkości
     public float GlideFactor = 0.1f; // współczynnik "t" w lerpie. Jeśli spada szybciej niż GlidingSpeed, to prędkość będzie lerpowana z tym "t" do GlidingSpeed
+
+
+    private List<Attractor> attractors = new List<Attractor>();
+    private float attractionForce;
+    private Vector3 attractionVector;
 
 
     private bool dashDescending;  // czy w danym momencie ma złożone skrzydła i leci szybko w dół
@@ -44,8 +52,17 @@ public class MothMovement : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            Debug.Log("flap.");
             Flap();
+            if (CurrentEnergy >= 0)
+            {
+                Debug.Log("flap.");
+                Flap();
+            }
+            else
+            {
+                Debug.Log("cannot flap :c");
+            }
+            Debug.Log(CurrentEnergy);
         }
 
         if (Input.GetKey(KeyCode.DownArrow)) {
@@ -90,7 +107,6 @@ public class MothMovement : MonoBehaviour
         AddGravity();
 
         if (!dashDescending && IsFalling && rb.velocity.y < GlidingSpeed) {
-            Debug.Log("LERP");
             float newVelocity = Mathf.Lerp(rb.velocity.y, GlidingSpeed, GlideFactor);
             rb.velocity = new Vector3(rb.velocity.x, newVelocity, rb.velocity.z);
         }
@@ -106,11 +122,15 @@ public class MothMovement : MonoBehaviour
             transform.position.y,
             transform.position.z + forwardSpeed * Time.deltaTime
         );
+
+        CalculateAttractionForce();
+        CalculateLightRecharge();
     }
 
 
     void Flap() {
         rb.velocity = new Vector3(rb.velocity.x, FlapForce, rb.velocity.z);
+        CurrentEnergy -= 3;
     }
 
     void AddGravity() {
@@ -118,14 +138,85 @@ public class MothMovement : MonoBehaviour
     }
 
 
+    void CalculateLightRecharge()
+    {
+        Vector3 combinedVector = Vector3.zero;
+
+        foreach (var attractor in attractors)
+        {
+            float distance = Vector3.Distance(transform.position, attractor.transform.position);
+            float radius = attractor.Radius;
+
+            var force = (1 - distance / radius) * attractor.AttractionForce;
+            var forceVector = attractor.transform.position - transform.position;
+
+            combinedVector += forceVector * force / (distance);
+        }
+
+        var finalForce = combinedVector.magnitude;
+
+        CurrentEnergy += finalForce*RechargingSpeedFactor;
+        if (CurrentEnergy > MaxEnergy)
+        {
+            CurrentEnergy = MaxEnergy;
+        }
+    }
 
 
-    private void OnTriggerEnter(Collider other)
+    void CalculateAttractionForce()
+    {
+        Vector3 combinedVector = Vector3.zero;
+
+        foreach (var attractor in attractors) {
+            float distance = Vector3.Distance(transform.position, attractor.transform.position);
+            float radius = attractor.Radius;
+
+            var force = (1 - distance / radius) * attractor.AttractionForce;
+            var forceVector = attractor.transform.position - transform.position;
+
+            combinedVector += forceVector*force / (distance);
+        }
+        
+        var finalForce = combinedVector.magnitude;
+        combinedVector.Normalize();
+
+        attractionForce = finalForce;
+        attractionVector = combinedVector;
+
+    }
+
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("LanternDeathZone"))
         {
             Debug.Log("Entered Death Zone");
         }
+        else if (other.CompareTag("Attractor")) {
+            var attractor = other.GetComponent<Attractor>();
+            if (attractor != null) {
+                attractors.Add(attractor);
+            }
+        }
+        //if (other.CompareTag("LanternEnergyZone"))
+        //{
+        //    CurrentEnergy += 10;
+        //}
+
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Attractor")) {
+            var attractor = other.GetComponent<Attractor>();
+            if (attractor != null) {
+                attractors.Remove(attractor);
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, transform.position + attractionForce*attractionVector);
+    }
 }
