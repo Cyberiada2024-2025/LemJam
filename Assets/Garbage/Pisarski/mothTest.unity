@@ -422,34 +422,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: FlapForce
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: MaxRotation
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: ForwardSpeed
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: GravityForce
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: RotationForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: MaxHorizontalSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: RotationResetForce
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 551832818867035701, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -493,14 +465,6 @@ PrefabInstance:
     - target: {fileID: 947522929979511107, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
       propertyPath: m_Name
       value: Moth
-      objectReference: {fileID: 0}
-    - target: {fileID: 947522929979511107, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7355752818305821993, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
