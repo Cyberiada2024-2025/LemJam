@@ -29,6 +29,11 @@ public class MothMovement : MonoBehaviour
     public float GlideFactor = 0.1f; // współczynnik "t" w lerpie. Jeśli spada szybciej niż GlidingSpeed, to prędkość będzie lerpowana z tym "t" do GlidingSpeed
 
 
+    private List<Attractor> attractors = new List<Attractor>();
+    private float attractionForce;
+    private Vector3 attractionVector;
+
+
     private bool dashDescending;  // czy w danym momencie ma złożone skrzydła i leci szybko w dół
 
     private Rigidbody rb;
@@ -100,7 +105,6 @@ public class MothMovement : MonoBehaviour
         AddGravity();
 
         if (!dashDescending && IsFalling && rb.velocity.y < GlidingSpeed) {
-            Debug.Log("LERP");
             float newVelocity = Mathf.Lerp(rb.velocity.y, GlidingSpeed, GlideFactor);
             rb.velocity = new Vector3(rb.velocity.x, newVelocity, rb.velocity.z);
         }
@@ -116,6 +120,8 @@ public class MothMovement : MonoBehaviour
             transform.position.y,
             transform.position.z + forwardSpeed * Time.deltaTime
         );
+
+        CalculateAttractionForce();
     }
 
 
@@ -128,14 +134,37 @@ public class MothMovement : MonoBehaviour
         rb.AddForce(-GravityForce * Vector3.up);
     }
 
+    
 
-
-
-    private void OnTriggerEnter(Collider other)
+    void CalculateAttractionForce()
     {
-        if (other.CompareTag("LanternDeathZone"))
-        {
-            Debug.Log("Entered Death Zone");
+        Vector3 combinedVector = Vector3.zero;
+
+        foreach (var attractor in attractors) {
+            float distance = Vector3.Distance(transform.position, attractor.transform.position);
+            float radius = attractor.Radius;
+
+            var force = (1 - distance / radius) * attractor.AttractionForce;
+            var forceVector = attractor.transform.position - transform.position;
+
+            combinedVector += forceVector*force / (distance);
+        }
+        
+        var finalForce = combinedVector.magnitude;
+        combinedVector.Normalize();
+
+        attractionForce = finalForce;
+        attractionVector = combinedVector;
+
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Attractor")) {
+            var attractor = other.GetComponent<Attractor>();
+            if (attractor != null) {
+                attractors.Add(attractor);
+            }
         }
         if (other.CompareTag("LanternEnergyZone"))
         {
@@ -144,4 +173,22 @@ public class MothMovement : MonoBehaviour
 
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("LanternDeathZone")) {
+            Debug.Log("Entered Death Zone");
+        }
+        else if (other.CompareTag("Attractor")) {
+            var attractor = other.GetComponent<Attractor>();
+            if (attractor != null) {
+                attractors.Remove(attractor);
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, transform.position + attractionForce*attractionVector);
+    }
 }

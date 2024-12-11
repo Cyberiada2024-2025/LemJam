@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - LanternDeathZone
+  - Attractor
   layers:
   - Default
   - TransparentFX
