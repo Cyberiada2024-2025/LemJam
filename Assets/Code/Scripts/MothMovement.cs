@@ -11,6 +11,7 @@ public class MothMovement : MonoBehaviour
 
     private float CurrentEnergy = 50;
     public float MaxEnergy = 100;
+    public float RechargingSpeedFactor = 1.0f;
 
     public float ForwardSpeed = 1;
     public float MaxHorizontalSpeed = 50;
@@ -123,6 +124,7 @@ public class MothMovement : MonoBehaviour
         );
 
         CalculateAttractionForce();
+        CalculateLightRecharge();
     }
 
 
@@ -135,7 +137,31 @@ public class MothMovement : MonoBehaviour
         rb.AddForce(-GravityForce * Vector3.up);
     }
 
-    
+
+    void CalculateLightRecharge()
+    {
+        Vector3 combinedVector = Vector3.zero;
+
+        foreach (var attractor in attractors)
+        {
+            float distance = Vector3.Distance(transform.position, attractor.transform.position);
+            float radius = attractor.Radius;
+
+            var force = (1 - distance / radius) * attractor.AttractionForce;
+            var forceVector = attractor.transform.position - transform.position;
+
+            combinedVector += forceVector * force / (distance);
+        }
+
+        var finalForce = combinedVector.magnitude;
+
+        CurrentEnergy += finalForce*RechargingSpeedFactor;
+        if (CurrentEnergy > MaxEnergy)
+        {
+            CurrentEnergy = MaxEnergy;
+        }
+    }
+
 
     void CalculateAttractionForce()
     {
@@ -161,25 +187,26 @@ public class MothMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Attractor")) {
+        if (other.CompareTag("LanternDeathZone"))
+        {
+            Debug.Log("Entered Death Zone");
+        }
+        else if (other.CompareTag("Attractor")) {
             var attractor = other.GetComponent<Attractor>();
             if (attractor != null) {
                 attractors.Add(attractor);
             }
         }
-        if (other.CompareTag("LanternEnergyZone"))
-        {
-            CurrentEnergy += 10;
-        }
+        //if (other.CompareTag("LanternEnergyZone"))
+        //{
+        //    CurrentEnergy += 10;
+        //}
 
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("LanternDeathZone")) {
-            Debug.Log("Entered Death Zone");
-        }
-        else if (other.CompareTag("Attractor")) {
+        if (other.CompareTag("Attractor")) {
             var attractor = other.GetComponent<Attractor>();
             if (attractor != null) {
                 attractors.Remove(attractor);
