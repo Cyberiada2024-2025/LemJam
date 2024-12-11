@@ -36,7 +36,7 @@ public class MothMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Hello~! I am a mmmmmmmoth!");
+        //Debug.Log("Hello~! I am a mmmmmmmoth!");
         rb = GetComponent<Rigidbody>();
     }
 
@@ -56,7 +56,7 @@ public class MothMovement : MonoBehaviour
         
         bool arrowsPressed = false;
         if (Input.GetKey(KeyCode.RightArrow)) {
-            Debug.Log("right.");
+            //Debug.Log("right.");
             arrowsPressed = true;
             currentRotation -= RotationForce * Time.deltaTime;
 
@@ -66,7 +66,7 @@ public class MothMovement : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.LeftArrow)) {
-            Debug.Log("left.");
+            //Debug.Log("left.");
             arrowsPressed = true;
             currentRotation += RotationForce * Time.deltaTime;
 
@@ -116,4 +116,16 @@ public class MothMovement : MonoBehaviour
     void AddGravity() {
         rb.AddForce(-GravityForce * Vector3.up);
     }
+
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("LanternDeathZone"))
+        {
+            Debug.Log("Entered Death Zone");
+        }
+    }
+
 }

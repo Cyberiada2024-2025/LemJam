@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 636138808181287609}
   - component: {fileID: 184035093195942742}
   - component: {fileID: 7355752818305821993}
+  - component: {fileID: 3347092761116710989}
   m_Layer: 0
   m_Name: Moth
   m_TagString: Player
@@ -100,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxRotation: 30
-  ForwardSpeed: 0.01
+  ForwardSpeed: 0.1
   MaxHorizontalSpeed: 2
   FlapForce: 2
   GravityForce: 5
@@ -135,6 +136,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &3347092761116710989
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947522929979511107}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2014924917425878088
 GameObject:
   m_ObjectHideFlags: 0
