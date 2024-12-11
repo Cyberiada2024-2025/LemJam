@@ -9,6 +9,8 @@ public class MothMovement : MonoBehaviour
     private float currentRotation = 0;  // obrót tylko w osi w której ćma leci - w zakresie [-1, 1]. Wpływa na prędkość ruchu w tym kierunku
     public float MaxRotation = 30;  // w stopniach, tylko graficzne (nie wpływa na mechanikę lotu)
 
+    private float CurrentEnergy = 50;
+    public float MaxEnergy = 100;
 
     public float ForwardSpeed = 1;
     public float MaxHorizontalSpeed = 50;
@@ -44,8 +46,16 @@ public class MothMovement : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            Debug.Log("flap.");
-            Flap();
+            if (CurrentEnergy >= 0)
+            {
+                Debug.Log("flap.");
+                Flap();
+            }
+            else
+            {
+                Debug.Log("cannot flap :c");
+            }
+            Debug.Log(CurrentEnergy);
         }
 
         if (Input.GetKey(KeyCode.DownArrow)) {
@@ -111,6 +121,7 @@ public class MothMovement : MonoBehaviour
 
     void Flap() {
         rb.velocity = new Vector3(rb.velocity.x, FlapForce, rb.velocity.z);
+        CurrentEnergy -= 3;
     }
 
     void AddGravity() {
@@ -126,6 +137,11 @@ public class MothMovement : MonoBehaviour
         {
             Debug.Log("Entered Death Zone");
         }
+        if (other.CompareTag("LanternEnergyZone"))
+        {
+            CurrentEnergy += 10;
+        }
+
     }
 
 }
