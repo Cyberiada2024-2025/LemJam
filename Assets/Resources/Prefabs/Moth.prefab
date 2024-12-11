@@ -103,11 +103,12 @@ MonoBehaviour:
   MaxRotation: 30
   ForwardSpeed: 0.1
   MaxHorizontalSpeed: 2
-  FlapForce: 10
-  GravityForce: 100
-  DownwardsGravityScale: 0.2
-  RotationForce: 10
+  FlapForce: 2
+  GravityForce: 5
+  RotationForce: 5
   RotationResetForce: 2
+  GlidingSpeed: -0.5
+  GlideFactor: 0.5
 --- !u!54 &7355752818305821993
 Rigidbody:
   m_ObjectHideFlags: 0
