@@ -23,6 +23,9 @@ public class LampionMovement : MonoBehaviour
     [SerializeField]
     float max_time = 10;
 
+    [SerializeField]
+    float distance_to_activate = 10;
+
 
 
 
@@ -35,16 +38,18 @@ public class LampionMovement : MonoBehaviour
         //state = LampionState.RISING;
     }
 
-
+    
 
     // Update is called once per frame
     void Update()
     {
-
-        switch (state)
-        {
+        Transform kok = GameManager.Instance.player;
+        switch (state) { 
             case LampionState.PRESPAWN:
-
+                if(transform.position.z - GameManager.Instance.player.position.z <= distance_to_activate)
+                {
+                    state = LampionState.RISING;
+                }
                 break;
             case LampionState.RISING:
                 MoveLantern();
