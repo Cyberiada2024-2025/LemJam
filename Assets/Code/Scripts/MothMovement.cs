@@ -76,12 +76,10 @@ public class MothMovement : MonoBehaviour
 
         AddGravity();
 
-        Debug.Log(currentRotation);
-        Debug.Log(Quaternion.Euler(transform.rotation.x, transform.rotation.y, currentRotation * MaxRotation));
+        // ustawianie ładnego obrotu ćmy
         transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, currentRotation * MaxRotation);
-        // NIE DZIAŁA, TODO
 
-        var horizontalSpeed = currentRotation * MaxHorizontalSpeed;
+        var horizontalSpeed = -currentRotation * MaxHorizontalSpeed;
         var forwardSpeed = ForwardSpeed;
 
         transform.position = new Vector3(transform.position.x + horizontalSpeed * Time.deltaTime, transform.position.y, transform.position.z + forwardSpeed * Time.deltaTime);
