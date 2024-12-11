@@ -45,6 +45,7 @@ public class MothMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameManager.Instance.SetEnergy(CurrentEnergy);
         if (Input.GetKeyDown(KeyCode.UpArrow)) {
             if (CurrentEnergy >= 0)
             {
@@ -55,7 +56,7 @@ public class MothMovement : MonoBehaviour
             {
                 Debug.Log("cannot flap :c");
             }
-            Debug.Log(CurrentEnergy);
+            
         }
 
         if (Input.GetKey(KeyCode.DownArrow)) {
@@ -142,6 +143,11 @@ public class MothMovement : MonoBehaviour
             CurrentEnergy += 10;
         }
 
+    }
+
+    public float GetCurrentEnergy()
+    {
+        return CurrentEnergy;
     }
 
 }

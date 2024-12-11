@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     public MothMovement player;
+    public Slider EnergyBar;
 
     private void Awake()
     {
@@ -27,8 +29,13 @@ public class GameManager : MonoBehaviour
         if(player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<MothMovement>();
+            EnergyBar.value = player.GetCurrentEnergy();
         }
     }
 
+    public void SetEnergy(float energy)
+    {
+        EnergyBar.value = energy;
+    }
 
 }
