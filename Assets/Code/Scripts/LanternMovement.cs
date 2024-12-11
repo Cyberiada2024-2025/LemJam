@@ -19,7 +19,7 @@ public class LampionMovement : MonoBehaviour
     AnimationCurve curve;
 
     [SerializeField]
-    float max_height = 10;
+    public float max_height = 10;
 
     [SerializeField]
     float max_rising_time = 10;
