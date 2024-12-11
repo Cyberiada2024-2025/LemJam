@@ -9,11 +9,11 @@ public class CameraBoxScript : MonoBehaviour
     private bool is_started = false;
 
     [SerializeField]
-    AnimationCurve curve;
+    public AnimationCurve curve;
     [SerializeField]
-    Transform finish;
+    public Transform finish;
     [SerializeField]
-    float height = 20.0f;
+    public float height = 20.0f;
 
 
     // Start is called before the first frame update
