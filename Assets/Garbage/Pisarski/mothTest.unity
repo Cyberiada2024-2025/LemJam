@@ -490,7 +490,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4746284606535062823, guid: 111b9bdfb18bdc842a64a0846ff6bd96, type: 3}
       propertyPath: max_height
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4746284606535062823, guid: 111b9bdfb18bdc842a64a0846ff6bd96, type: 3}
       propertyPath: floating_amplitude
@@ -510,7 +510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5368853485850047335, guid: 111b9bdfb18bdc842a64a0846ff6bd96, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.34
+      value: 1.56
       objectReference: {fileID: 0}
     - target: {fileID: 5368853485850047335, guid: 111b9bdfb18bdc842a64a0846ff6bd96, type: 3}
       propertyPath: m_LocalPosition.z
@@ -544,6 +544,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7124277520371310983, guid: 111b9bdfb18bdc842a64a0846ff6bd96, type: 3}
+      propertyPath: AttractionForce
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -558,8 +562,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
-      propertyPath: GravityForce
-      value: 0
+      propertyPath: GlideFactor
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
+      propertyPath: FlapCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 184035093195942742, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
+      propertyPath: AttractionFlapInterval
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 551832818867035701, guid: 64d5970941fcba24aa0f8e460497bf73, type: 3}
       propertyPath: m_LocalPosition.x
