@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public MothMovement player;
+    public CameraBoxScript cameraBox;
 
     private void Awake()
     {
@@ -27,6 +28,10 @@ public class GameManager : MonoBehaviour
         if(player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<MothMovement>();
+        }
+        if (cameraBox == null)
+        {
+            cameraBox = GameObject.FindGameObjectWithTag("CameraBox").GetComponent<CameraBoxScript>();
         }
     }
 

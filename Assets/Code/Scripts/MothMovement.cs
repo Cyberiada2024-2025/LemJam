@@ -6,6 +6,8 @@ using UnityEngine.Video;
 [RequireComponent(typeof(Rigidbody))]
 public class MothMovement : MonoBehaviour
 {
+    private bool is_started = false;
+
     private float currentRotation = 0;  // obrót tylko w osi w której ćma leci - w zakresie [-1, 1]. Wpływa na prędkość ruchu w tym kierunku
     public float MaxRotation = 30;  // w stopniach, tylko graficzne (nie wpływa na mechanikę lotu)
 
@@ -51,7 +53,7 @@ public class MothMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
             Flap();
             if (CurrentEnergy >= 0)
             {
@@ -65,66 +67,80 @@ public class MothMovement : MonoBehaviour
             Debug.Log(CurrentEnergy);
         }
 
-        if (Input.GetKey(KeyCode.DownArrow)) {
-            dashDescending = true;
-        } else {
-            dashDescending = false;
-        }
-        
-        bool arrowsPressed = false;
-        if (Input.GetKey(KeyCode.RightArrow)) {
-            //Debug.Log("right.");
-            arrowsPressed = true;
-            currentRotation -= RotationForce * Time.deltaTime;
-
-            if (currentRotation < -1) {
-                currentRotation = -1;
+        if (is_started)
+        {
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                dashDescending = true;
             }
-        }
-
-        if (Input.GetKey(KeyCode.LeftArrow)) {
-            //Debug.Log("left.");
-            arrowsPressed = true;
-            currentRotation += RotationForce * Time.deltaTime;
-
-            if (currentRotation > 1) {
-                currentRotation = 1;
+            else
+            {
+                dashDescending = false;
             }
-        }
 
-        if (!arrowsPressed) {
-            if (currentRotation > 0) {
-                currentRotation -= RotationResetForce * Time.deltaTime;
-                currentRotation = Mathf.Max(currentRotation, 0);
+            bool arrowsPressed = false;
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                //Debug.Log("right.");
+                arrowsPressed = true;
+                currentRotation -= RotationForce * Time.deltaTime;
+
+                if (currentRotation < -1)
+                {
+                    currentRotation = -1;
+                }
             }
-            else {
-                currentRotation += RotationResetForce * Time.deltaTime;
-                currentRotation = Mathf.Min(currentRotation, 0);
+
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                //Debug.Log("left.");
+                arrowsPressed = true;
+                currentRotation += RotationForce * Time.deltaTime;
+
+                if (currentRotation > 1)
+                {
+                    currentRotation = 1;
+                }
             }
+
+            if (!arrowsPressed)
+            {
+                if (currentRotation > 0)
+                {
+                    currentRotation -= RotationResetForce * Time.deltaTime;
+                    currentRotation = Mathf.Max(currentRotation, 0);
+                }
+                else
+                {
+                    currentRotation += RotationResetForce * Time.deltaTime;
+                    currentRotation = Mathf.Min(currentRotation, 0);
+                }
+            }
+
+
+            AddGravity();
+
+            if (!dashDescending && IsFalling && rb.velocity.y < GlidingSpeed)
+            {
+                float newVelocity = Mathf.Lerp(rb.velocity.y, GlidingSpeed, GlideFactor);
+                rb.velocity = new Vector3(rb.velocity.x, newVelocity, rb.velocity.z);
+            }
+
+            // ustawianie ładnego obrotu ćmy
+            transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, currentRotation * MaxRotation);
+
+            var horizontalSpeed = -currentRotation * MaxHorizontalSpeed;
+            var forwardSpeed = ForwardSpeed;
+
+            transform.position = new Vector3(
+                transform.position.x + horizontalSpeed * Time.deltaTime,
+                transform.position.y,
+                transform.position.z + forwardSpeed * Time.deltaTime
+            );
+
+            CalculateAttractionForce();
+            CalculateLightRecharge();
         }
-
-
-        AddGravity();
-
-        if (!dashDescending && IsFalling && rb.velocity.y < GlidingSpeed) {
-            float newVelocity = Mathf.Lerp(rb.velocity.y, GlidingSpeed, GlideFactor);
-            rb.velocity = new Vector3(rb.velocity.x, newVelocity, rb.velocity.z);
-        }
-
-        // ustawianie ładnego obrotu ćmy
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, currentRotation * MaxRotation);
-
-        var horizontalSpeed = -currentRotation * MaxHorizontalSpeed;
-        var forwardSpeed = ForwardSpeed;
-
-        transform.position = new Vector3(
-            transform.position.x + horizontalSpeed * Time.deltaTime,
-            transform.position.y,
-            transform.position.z + forwardSpeed * Time.deltaTime
-        );
-
-        CalculateAttractionForce();
-        CalculateLightRecharge();
     }
 
 
@@ -183,6 +199,12 @@ public class MothMovement : MonoBehaviour
         attractionForce = finalForce;
         attractionVector = combinedVector;
 
+    }
+
+
+    public void TurnOn()
+    {
+        is_started = true;
     }
 
     void OnTriggerEnter(Collider other)
