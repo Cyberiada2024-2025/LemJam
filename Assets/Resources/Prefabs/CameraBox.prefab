@@ -151,14 +151,14 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5
-      value: 0.2667295
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      time: 0.5102868
+      value: 0.49506965
+      inSlope: -0.0014200658
+      outSlope: -0.0014200658
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.76145476
     - serializedVersion: 3
       time: 1.0033333
       value: 0.0028276695
@@ -172,7 +172,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   finish: {fileID: 0}
-  haight: 20
+  height: 20
 --- !u!1 &4405631445780642642
 GameObject:
   m_ObjectHideFlags: 0

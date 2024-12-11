@@ -44,7 +44,7 @@ public class MothMovement : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            Debug.Log("flap.");
+            //Debug.Log("flap.");
             Flap();
         }
 
@@ -90,7 +90,7 @@ public class MothMovement : MonoBehaviour
         AddGravity();
 
         if (!dashDescending && IsFalling && rb.velocity.y < GlidingSpeed) {
-            Debug.Log("LERP");
+            //Debug.Log("LERP");
             float newVelocity = Mathf.Lerp(rb.velocity.y, GlidingSpeed, GlideFactor);
             rb.velocity = new Vector3(rb.velocity.x, newVelocity, rb.velocity.z);
         }
