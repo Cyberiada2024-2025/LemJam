@@ -12,6 +12,7 @@ public class LampionMovement : MonoBehaviour
         RISING,
         FLOATING
     }
+    private float start_position;
     private float time = 0.0f;
     private LampionState state = LampionState.PRESPAWN;
 
@@ -19,7 +20,7 @@ public class LampionMovement : MonoBehaviour
     AnimationCurve curve;
 
     [SerializeField]
-    float max_height = 10;
+    public float max_height = 10;
 
     [SerializeField]
     float max_rising_time = 10;
@@ -42,7 +43,7 @@ public class LampionMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        start_position = transform.position.y;
         //state = LampionState.RISING;
     }
 
@@ -51,10 +52,10 @@ public class LampionMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Transform kok = GameManager.Instance.player;
+        Transform kok = GameManager.Instance.player.transform;
         switch (state) { 
             case LampionState.PRESPAWN:
-                if(transform.position.z - GameManager.Instance.player.position.z <= distance_to_activate)
+                if(transform.position.z - kok.position.z <= distance_to_activate)
                 {
                     state = LampionState.RISING;
                 }
@@ -75,7 +76,7 @@ public class LampionMovement : MonoBehaviour
     void MoveLantern()
     {
         time += Time.deltaTime;
-        Vector3 new_position = new Vector3(transform.position.x, max_height * curve.Evaluate(time / max_rising_time), transform.position.z);
+        Vector3 new_position = new Vector3(transform.position.x, start_position + max_height * curve.Evaluate(time / max_rising_time), transform.position.z);
         transform.position = new_position;
         if (time / max_rising_time >= 1.0f)
         {
@@ -88,7 +89,7 @@ public class LampionMovement : MonoBehaviour
 
     void LanterFloating()
     {
-        Vector3 new_position = new Vector3(transform.position.x, (float)(max_height + floating_amplitude*Math.Sin((Time.time - time)*floating_frequency)), transform.position.z);
+        Vector3 new_position = new Vector3(transform.position.x, (float)(start_position + max_height + floating_amplitude*Math.Sin((Time.time - time)*floating_frequency)), transform.position.z);
         this.transform.position = new_position;
     }
 

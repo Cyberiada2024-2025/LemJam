@@ -227,7 +227,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  max_height: 100
+  max_height: 10
   max_rising_time: 10
   distance_to_activate: 10
   floating_frequency: 1

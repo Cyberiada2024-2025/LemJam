@@ -9,6 +9,9 @@ public class MothMovement : MonoBehaviour
     private float currentRotation = 0;  // obrót tylko w osi w której ćma leci - w zakresie [-1, 1]. Wpływa na prędkość ruchu w tym kierunku
     public float MaxRotation = 30;  // w stopniach, tylko graficzne (nie wpływa na mechanikę lotu)
 
+    private float CurrentEnergy = 50;
+    public float MaxEnergy = 100;
+    public float RechargingSpeedFactor = 1.0f;
 
     public float ForwardSpeed = 1;
     public float MaxHorizontalSpeed = 50;
@@ -127,17 +130,20 @@ public class MothMovement : MonoBehaviour
             transform.position.y,
             transform.position.z + forwardSpeed * Time.deltaTime
         );
+        
+        CalculateLightRecharge();
     }
 
 
     void Flap(float force) {
-        if (Time.time - lastFlapTime > FlapCooldown) {
+        if (Time.time - lastFlapTime > FlapCooldown && CurrentEnergy >= 0) {
             Debug.Log("flap");
             rb.velocity = new Vector3(rb.velocity.x, force, rb.velocity.z);
             lastFlapTime = Time.time;
+            CurrentEnergy -= 3;
         }
         else {
-            Debug.Log("NO FLAP :(");
+            Debug.Log("NO FLAP :c");
         }
     }
 
@@ -145,7 +151,31 @@ public class MothMovement : MonoBehaviour
         rb.AddForce(-GravityForce * Vector3.up);
     }
 
-    
+
+    void CalculateLightRecharge()
+    {
+        Vector3 combinedVector = Vector3.zero;
+
+        foreach (var attractor in attractors)
+        {
+            float distance = Vector3.Distance(transform.position, attractor.transform.position);
+            float radius = attractor.Radius;
+
+            var force = (1 - distance / radius) * attractor.AttractionForce;
+            var forceVector = attractor.transform.position - transform.position;
+
+            combinedVector += forceVector * force / (distance);
+        }
+
+        var finalForce = combinedVector.magnitude;
+
+        CurrentEnergy += finalForce*RechargingSpeedFactor;
+        if (CurrentEnergy > MaxEnergy)
+        {
+            CurrentEnergy = MaxEnergy;
+        }
+    }
+
 
     void CalculateAttractionForce()
     {
@@ -174,20 +204,26 @@ public class MothMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Attractor")) {
+        if (other.CompareTag("LanternDeathZone"))
+        {
+            Debug.Log("Entered Death Zone");
+        }
+        else if (other.CompareTag("Attractor")) {
             var attractor = other.GetComponent<Attractor>();
             if (attractor != null) {
                 attractors.Add(attractor);
             }
         }
+        //if (other.CompareTag("LanternEnergyZone"))
+        //{
+        //    CurrentEnergy += 10;
+        //}
+
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("LanternDeathZone")) {
-            Debug.Log("Entered Death Zone");
-        }
-        else if (other.CompareTag("Attractor")) {
+        if (other.CompareTag("Attractor")) {
             var attractor = other.GetComponent<Attractor>();
             if (attractor != null) {
                 attractors.Remove(attractor);
