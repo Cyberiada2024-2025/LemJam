@@ -237,12 +237,12 @@ public class MothMovement : MonoBehaviour
         {
             CurrentEnergy = MaxEnergy;
         }
-        if (GameManager.Instance.postProcess.profile.TryGet<ColorAdjustments>(out var colorAdjustments))
+        /*if (GameManager.Instance.postProcess.profile.TryGet<ColorAdjustments>(out var colorAdjustments))
         {
             Debug.Log(Mathf.Clamp(finalForce*satStr, 0, 100));
             colorAdjustments.saturation.value = Mathf.Clamp(finalForce*satStr, 0, 100);
             // colorAdjustments.contrast.value = CurrentEnergy-50f *1.5f;
-        }
+        }*/
     }
 
 
