@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
 {
     private float StartingZ;
     public int MaxScore = 1000;
+    public int score=0;
 
     public static GameManager Instance;
+
 
     public MothMovement player;
     public Slider EnergyBar;
@@ -22,9 +24,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
+        
 
         if (Instance != null && Instance != this)
-        {
+        {            
+
             Destroy(this);
         }
         else
@@ -32,6 +36,8 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         PauseMenuCanvas.enabled = false;
+
+        
     }
     public static void Restart()
     {
@@ -56,6 +62,7 @@ public class GameManager : MonoBehaviour
         }
 
         EnergyBar.value = player.GetCurrentEnergy();
+       
     }
 
     private void Update()
@@ -86,7 +93,7 @@ public class GameManager : MonoBehaviour
     public int GetScore(float posZ)
     {
         return (int)(MaxScore * (posZ - StartingZ) / (landingPoint.transform.position.z - StartingZ));
-    }
+    }   
 
     public void OnExitButtonClicked()
     {
