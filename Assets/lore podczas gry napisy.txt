@@ -1,0 +1,8 @@
+[podczas gry]
+Trurl potrzebuje części do właśnie budowanej maszyny.
+W desperacji wysłał po nie swoją Cyberćmę.
+Niestety Klapaucjusz chce pokrzyżować mu plany i nasłał na posłankę przyjaciela chmarę lampionów by odwieść ćmę od jej celu.
+
+[po grze]
+Cyberćma dotarła do celu i dostarczyła potrzebne części.
+Części dostarczone przez Cyberćmę były kluczowe w ukończeniu maszyny.
