@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
-
+    public Volume postProcess;
     public MothMovement player;
     public Slider EnergyBar;
     public Canvas PauseMenuCanvas;
