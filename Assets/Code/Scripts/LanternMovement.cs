@@ -25,8 +25,8 @@ public class LampionMovement : MonoBehaviour
     [SerializeField]
     float max_rising_time = 10;
 
-    [SerializeField]
-    float distance_to_activate = 10;
+
+    public float distance_to_activate = 10;
 
     [SerializeField]
     float floating_frequency = 1;

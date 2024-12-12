@@ -6,7 +6,7 @@ using UnityEngine.Video;
 [RequireComponent(typeof(Rigidbody))]
 public class MothMovement : MonoBehaviour
 {
-    private bool is_started = false;
+    public bool is_started = false;
 
     [SerializeField]
     private Animator anim;
@@ -130,7 +130,7 @@ public class MothMovement : MonoBehaviour
                 dashDescending = Mathf.Max(dashDescending, 0);
             } else if (attractionVector.y > 0) {
                 attractionFlapTimer += attractionVector.y * Time.deltaTime;
-                if (attractionFlapTimer >= AttractionFlapInterval) {
+                if (attractionFlapTimer >= AttractionFlapInterval && dashDescending <= 0.25) {
                     attractionFlapTimer = 0;
                     Flap(FlapForce * AttractionFlapForceMultiplier);
                 }
@@ -144,7 +144,6 @@ public class MothMovement : MonoBehaviour
         }
 
         if (is_dead){
-            
             var step = 1000 * Time.deltaTime;
             var camera = GameObject.Find("Main Camera").GetComponent<Transform>();
             var rotation = Quaternion.LookRotation(transform.position - camera.position);
