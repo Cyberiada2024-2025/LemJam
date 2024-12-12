@@ -1109,6 +1109,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1266419897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1266419899}
+  - component: {fileID: 1266419898}
+  m_Layer: 0
+  m_Name: Lantern Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1266419898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266419897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3b3d08e01cf62c48aaffd63d1e307cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LanternPrefabs:
+  - {fileID: 4310764780646047850, guid: 81a3abdfc509d3e48a7bcbc7ff565fd8, type: 3}
+  - {fileID: 4642982540291575227, guid: cb5d64fecba90974385e32617d7f9483, type: 3}
+  - {fileID: 9076035763236075142, guid: 41bcc27e9b7b3354baf2a8d065a05674, type: 3}
+  offset: {x: 0, y: -30, z: 60}
+  RandomOffsetX: 40
+  RandomOffsetY: 3
+  SpawnInterval: 0.5
+--- !u!4 &1266419899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266419897}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1445136450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2243,3 +2295,4 @@ SceneRoots:
   - {fileID: 768070872}
   - {fileID: 1258654981}
   - {fileID: 1496764832}
+  - {fileID: 1266419899}

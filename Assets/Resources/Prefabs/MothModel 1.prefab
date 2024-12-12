@@ -121,6 +121,7 @@ MonoBehaviour:
   MaxRotation: 30
   MaxEnergy: 100
   RechargingSpeedFactor: 1
+  DeathFallZone: -8
   ForwardSpeed: 2
   MaxHorizontalSpeed: 2
   FlapForce: 8
@@ -132,6 +133,11 @@ MonoBehaviour:
   GlideFactor: 15
   AttractionFlapForceMultiplier: 0.75
   AttractionFlapInterval: 1.5
+  VictorySound: {fileID: 0}
+  DieFallSound: {fileID: 0}
+  DieSound: {fileID: 0}
+  FlapSound: {fileID: 0}
+  SrobkaSound: {fileID: 0}
 --- !u!65 &4133802920002606438
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -151,7 +157,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8, y: 1, z: 8}
+  m_Size: {x: 1.5, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &5581694105067374214
 PrefabInstance:
