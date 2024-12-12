@@ -65,6 +65,11 @@ public class MothMovement : MonoBehaviour
             Flap(FlapForce);
         }
 
+        if(!is_started)
+        {
+            return;
+        }
+
         if (Input.GetKey(KeyCode.DownArrow)) {
             dashDescending = 1;
         } else {
@@ -85,68 +90,15 @@ public class MothMovement : MonoBehaviour
             currentRotation += RotationForce * Time.deltaTime;
         }
 
-            bool arrowsPressed = false;
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                //Debug.Log("right.");
-                arrowsPressed = true;
-                currentRotation -= RotationForce * Time.deltaTime;
-
-                if (currentRotation < -1)
-                {
-                    currentRotation = -1;
-                }
+        if (!arrowsPressed) {
+            if (currentRotation > 0) {
+                currentRotation -= RotationResetForce * Time.deltaTime;
+                currentRotation = Mathf.Max(currentRotation, 0);
             }
-
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                //Debug.Log("left.");
-                arrowsPressed = true;
-                currentRotation += RotationForce * Time.deltaTime;
-
-                if (currentRotation > 1)
-                {
-                    currentRotation = 1;
-                }
+            else {
+                currentRotation += RotationResetForce * Time.deltaTime;
+                currentRotation = Mathf.Min(currentRotation, 0);
             }
-
-            if (!arrowsPressed)
-            {
-                if (currentRotation > 0)
-                {
-                    currentRotation -= RotationResetForce * Time.deltaTime;
-                    currentRotation = Mathf.Max(currentRotation, 0);
-                }
-                else
-                {
-                    currentRotation += RotationResetForce * Time.deltaTime;
-                    currentRotation = Mathf.Min(currentRotation, 0);
-                }
-            }
-
-
-            AddGravity();
-
-            if (!dashDescending && IsFalling && rb.velocity.y < GlidingSpeed)
-            {
-                float newVelocity = Mathf.Lerp(rb.velocity.y, GlidingSpeed, GlideFactor);
-                rb.velocity = new Vector3(rb.velocity.x, newVelocity, rb.velocity.z);
-            }
-
-            // ustawianie ładnego obrotu ćmy
-            transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, currentRotation * MaxRotation);
-
-            var horizontalSpeed = -currentRotation * MaxHorizontalSpeed;
-            var forwardSpeed = ForwardSpeed;
-
-            transform.position = new Vector3(
-                transform.position.x + horizontalSpeed * Time.deltaTime,
-                transform.position.y,
-                transform.position.z + forwardSpeed * Time.deltaTime
-            );
-
-            CalculateAttractionForce();
-            CalculateLightRecharge();
         }
 
         currentRotation -= attractionVector.x * Time.deltaTime;
@@ -187,6 +139,7 @@ public class MothMovement : MonoBehaviour
         );
         
         CalculateLightRecharge();
+            
     }
 
 
@@ -256,7 +209,6 @@ public class MothMovement : MonoBehaviour
         attractionVector = combinedVector;
 
     }
-
 
     public void TurnOn()
     {
