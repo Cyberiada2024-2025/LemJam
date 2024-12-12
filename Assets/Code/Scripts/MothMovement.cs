@@ -18,7 +18,9 @@ public class MothMovement : MonoBehaviour
     public float ForwardSpeed = 1;
     public float MaxHorizontalSpeed = 50;
 
-    public float FlapForce = 0;  // jak mocno macha skrzydłami
+    public float FlapForce = 2;  // jak mocno macha skrzydłami
+    public float FlapCooldown = 0.75f;  // co tyle sekund może machnąć skrzydłami
+    private float lastFlapTime = -1;
 
     public float GravityForce = 1;
 
@@ -32,12 +34,15 @@ public class MothMovement : MonoBehaviour
     public float GlideFactor = 0.1f; // współczynnik "t" w lerpie. Jeśli spada szybciej niż GlidingSpeed, to prędkość będzie lerpowana z tym "t" do GlidingSpeed
 
 
+    public float AttractionFlapForceMultiplier = 0.75f;  // machanie skrzydłami automatyczne (od bycia pod lampionem) będzie miało siłę równą FlapForce * ten parametr
+    public float AttractionFlapInterval = 5;  // co tyle sekund będzie machał skrzydłami jak będzie pod atraktorem (w rzeczywistości pewnie rzadziej, bo to jest mnożone * attraction force)
+    private float attractionFlapTimer = 0;
     private List<Attractor> attractors = new List<Attractor>();
     private float attractionForce;
     private Vector3 attractionVector;
 
 
-    private bool dashDescending;  // czy w danym momencie ma złożone skrzydła i leci szybko w dół
+    private float dashDescending;  // czy w danym momencie ma złożone skrzydła i leci szybko w dół (0 = nie, 1 = tak, 0.5 = trochę tak, trochę nie)
 
     private Rigidbody rb;
 
@@ -53,30 +58,32 @@ public class MothMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
-            Flap();
-            if (CurrentEnergy >= 0)
-            {
-                Debug.Log("flap.");
-                Flap();
-            }
-            else
-            {
-                Debug.Log("cannot flap :c");
-            }
-            Debug.Log(CurrentEnergy);
+        CalculateAttractionForce();
+
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            Flap(FlapForce);
         }
 
-        if (is_started)
-        {
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                dashDescending = true;
-            }
-            else
-            {
-                dashDescending = false;
-            }
+        if (Input.GetKey(KeyCode.DownArrow)) {
+            dashDescending = 1;
+        } else {
+            dashDescending = 0;
+        }
+        
+        
+        bool arrowsPressed = false;
+        if (Input.GetKey(KeyCode.RightArrow)) {
+            //Debug.Log("right.");
+            arrowsPressed = true;
+            currentRotation -= RotationForce * Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+            //Debug.Log("left.");
+            arrowsPressed = true;
+            currentRotation += RotationForce * Time.deltaTime;
+        }
 
             bool arrowsPressed = false;
             if (Input.GetKey(KeyCode.RightArrow))
@@ -141,12 +148,58 @@ public class MothMovement : MonoBehaviour
             CalculateAttractionForce();
             CalculateLightRecharge();
         }
+
+        currentRotation -= attractionVector.x * Time.deltaTime;
+        if (currentRotation > 1) {
+            currentRotation = 1;
+        } else if (currentRotation < -1) {
+            currentRotation = -1;
+        }
+        if (attractionVector.y < 0) {
+            dashDescending -= attractionVector.y;
+            dashDescending = Mathf.Max(dashDescending, 0);
+        } else if (attractionVector.y > 0) {
+            attractionFlapTimer += attractionVector.y * Time.deltaTime;
+            if (attractionFlapTimer >= AttractionFlapInterval) {
+                attractionFlapTimer = 0;
+                Flap(FlapForce * AttractionFlapForceMultiplier);
+            }
+        }
+
+
+        AddGravity();
+
+        if (IsFalling && rb.velocity.y < GlidingSpeed) {
+            float newVelocity = Mathf.Lerp(rb.velocity.y, GlidingSpeed, GlideFactor * (1-dashDescending) * Time.deltaTime);
+            rb.velocity = new Vector3(rb.velocity.x, newVelocity, rb.velocity.z);
+        }
+
+        // ustawianie ładnego obrotu ćmy
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, currentRotation * MaxRotation);
+
+        var horizontalSpeed = -currentRotation * MaxHorizontalSpeed;
+        var forwardSpeed = ForwardSpeed;
+
+        transform.position = new Vector3(
+            transform.position.x + horizontalSpeed * Time.deltaTime,
+            transform.position.y,
+            transform.position.z + forwardSpeed * Time.deltaTime
+        );
+        
+        CalculateLightRecharge();
     }
 
 
-    void Flap() {
-        rb.velocity = new Vector3(rb.velocity.x, FlapForce, rb.velocity.z);
-        CurrentEnergy -= 3;
+    void Flap(float force) {
+        if (Time.time - lastFlapTime > FlapCooldown && CurrentEnergy >= 0) {
+            Debug.Log("flap");
+            rb.velocity = new Vector3(rb.velocity.x, force, rb.velocity.z);
+            lastFlapTime = Time.time;
+            CurrentEnergy -= 3;
+        }
+        else {
+            Debug.Log("NO FLAP :c");
+        }
     }
 
     void AddGravity() {
@@ -184,6 +237,10 @@ public class MothMovement : MonoBehaviour
         Vector3 combinedVector = Vector3.zero;
 
         foreach (var attractor in attractors) {
+            if (attractor.transform.position.z < transform.position.z) {
+                continue;  // pominięcie atraktorów które już są za nami
+            }
+
             float distance = Vector3.Distance(transform.position, attractor.transform.position);
             float radius = attractor.Radius;
 
@@ -193,10 +250,9 @@ public class MothMovement : MonoBehaviour
             combinedVector += forceVector*force / (distance);
         }
         
-        var finalForce = combinedVector.magnitude;
-        combinedVector.Normalize();
+        //var finalForce = combinedVector.magnitude;
+        //combinedVector.Normalize();
 
-        attractionForce = finalForce;
         attractionVector = combinedVector;
 
     }
@@ -239,6 +295,6 @@ public class MothMovement : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position + attractionForce*attractionVector);
+        Gizmos.DrawLine(transform.position, transform.position + attractionVector);
     }
 }
