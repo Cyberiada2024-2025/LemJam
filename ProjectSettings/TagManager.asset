@@ -7,6 +7,7 @@ TagManager:
   - LanternDeathZone
   - Attractor
   - CameraBox
+  - LandingPoint
   layers:
   - Default
   - TransparentFX

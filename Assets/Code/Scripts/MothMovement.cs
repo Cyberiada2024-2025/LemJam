@@ -51,13 +51,14 @@ public class MothMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log("Hello~! I am a mmmmmmmoth!");
+        Debug.Log("Hello~! I am a mmmmmmmoth!");
         rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         CalculateAttractionForce();
         GameManager.Instance.SetEnergy(CurrentEnergy);
 
@@ -145,13 +146,13 @@ public class MothMovement : MonoBehaviour
 
     void Flap(float force) {
         if (Time.time - lastFlapTime > FlapCooldown && CurrentEnergy >= 0) {
-            Debug.Log("flap");
+            //Debug.Log("flap");
             rb.velocity = new Vector3(rb.velocity.x, force, rb.velocity.z);
             lastFlapTime = Time.time;
             CurrentEnergy -= 3;
         }
         else {
-            Debug.Log("NO FLAP :c");
+            //Debug.Log("NO FLAP :c");
         }
     }
 
@@ -210,10 +211,13 @@ public class MothMovement : MonoBehaviour
 
     }
 
+
+
     public void TurnOn()
     {
         is_started = true;
     }
+
 
     void OnTriggerEnter(Collider other)
     {

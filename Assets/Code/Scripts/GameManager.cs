@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public MothMovement player;
     public Slider EnergyBar;
     public CameraBoxScript cameraBox;
+    public Transform landingPoint;
 
     private void Awake()
     {
@@ -35,6 +36,11 @@ public class GameManager : MonoBehaviour
         {
             cameraBox = GameObject.FindGameObjectWithTag("CameraBox").GetComponent<CameraBoxScript>();
         }
+        if (landingPoint == null)
+        {
+            landingPoint = GameObject.FindGameObjectWithTag("LandingPoint").transform;
+        }
+
         EnergyBar.value = player.GetCurrentEnergy();
     }
     public void SetEnergy(float energy)
