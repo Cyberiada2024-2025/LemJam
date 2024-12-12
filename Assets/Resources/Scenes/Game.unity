@@ -714,7 +714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
       propertyPath: GlideFactor
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
       propertyPath: SrobkaSound
@@ -750,7 +750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
       propertyPath: AttractionFlapInterval
-      value: 0
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
       propertyPath: RechargingSpeedDistancePowFactor
