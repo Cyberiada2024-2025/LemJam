@@ -822,6 +822,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41c80ced4971a6d4396d8c9e0a441a66, type: 3}
+--- !u!114 &1515966484 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4487971371700028989, guid: ccedcd3ac43ff3a429261bd97932edb1, type: 3}
+  m_PrefabInstance: {fileID: 1898539127}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1524903121 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7451631973503416151, guid: 41c80ced4971a6d4396d8c9e0a441a66, type: 3}
@@ -1372,6 +1383,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7285208449160682628, guid: 4639f5f24a0586f41bb18eb7a7e0aa22, type: 3}
+      propertyPath: EnergyBar
+      value: 
+      objectReference: {fileID: 1515966484}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

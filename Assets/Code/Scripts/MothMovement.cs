@@ -59,7 +59,7 @@ public class MothMovement : MonoBehaviour
     void Update()
     {
         CalculateAttractionForce();
-
+        GameManager.Instance.SetEnergy(CurrentEnergy);
 
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
             Flap(FlapForce);
@@ -248,5 +248,10 @@ public class MothMovement : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + attractionVector);
+    }
+
+    public float GetCurrentEnergy()
+    {
+        return CurrentEnergy;
     }
 }
