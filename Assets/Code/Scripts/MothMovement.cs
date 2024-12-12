@@ -135,7 +135,8 @@ public class MothMovement : MonoBehaviour
                     Flap(FlapForce * AttractionFlapForceMultiplier);
                 }
             }
-            if(transform.position.y< DeathFallZone)
+            
+            if (transform.position.y< DeathFallZone+ GameManager.Instance.cameraBox.GetY())
             {
                 source.PlayOneShot(DieFallSound, AudioListener.volume);
                 Death();
@@ -186,6 +187,7 @@ public class MothMovement : MonoBehaviour
             if (TimeStamp > 3)
             {
                 source.PlayOneShot(SrobkaSound, AudioListener.volume);
+                Debug.Log(DeathFallZone + GameManager.Instance.cameraBox.GetY());
                 TimeStamp = 0;
             }
             
