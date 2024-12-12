@@ -136,11 +136,13 @@ public class MothMovement : MonoBehaviour
                 }
             }
             
+            /*
             if (transform.position.y< DeathFallZone+ GameManager.Instance.cameraBox.GetY())
             {
                 source.PlayOneShot(DieFallSound, AudioListener.volume);
                 Death();
             }
+            */
         }
 
         if (is_dead){
