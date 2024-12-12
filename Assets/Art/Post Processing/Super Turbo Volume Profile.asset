@@ -33,7 +33,7 @@ MonoBehaviour:
     m_Value: 17.68
   aperture:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 1.55
   focalLength:
     m_OverrideState: 1
     m_Value: 87
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81180773991d8724ab7f2d216912b564, type: 3}
   m_Name: ChromaticAberration
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   intensity:
     m_OverrideState: 1
     m_Value: 1
@@ -173,7 +173,7 @@ MonoBehaviour:
     m_Value: -0.5
   contrast:
     m_OverrideState: 1
-    m_Value: 100
+    m_Value: 20
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 16, g: 16, b: 16, a: 1}
