@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,9 @@ public class CameraBoxScript : MonoBehaviour
 
     public float BoundaryX = 10.0f;
     public float LerpSpeed = 2.0f;
+
+    [SerializeField]
+    CinemachineVirtualCamera startCamera;
 
 
     // Start is called before the first frame update
@@ -57,6 +61,7 @@ public class CameraBoxScript : MonoBehaviour
     public void TurnOn()
     {
         is_started = true;
+        startCamera.enabled = false;
     }
 
 }
