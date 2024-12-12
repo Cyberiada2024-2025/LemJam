@@ -55,6 +55,7 @@ public class MothMovement : MonoBehaviour
     void Start()
     {
         Debug.Log("Hello~! I am a mmmmmmmoth!");
+        Debug.Log(GameManager.Instance.PlayerScore);
         rb = GetComponent<Rigidbody>();
     }
 
@@ -256,7 +257,8 @@ private IEnumerator Fade(){
         {
             Death();
             Debug.Log("Entered Death Zone");
-            Debug.Log("Score: " + GameManager.Instance.GetScore(transform.position.z));
+            GameManager.Instance.setScore(transform.position.z);
+            //Debug.Log("Score: " + GameManager.Instance.GetScore(transform.position.z));
         }
         else if (other.CompareTag("Attractor")) {
             var attractor = other.GetComponent<Attractor>();

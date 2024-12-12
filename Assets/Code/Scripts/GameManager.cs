@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     private float StartingZ;
     public int MaxScore = 1000;
+    public int PlayerScore = 0;
 
     public static GameManager Instance;
 
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
     public Canvas PauseMenuCanvas;
     public CameraBoxScript cameraBox;
     public Transform landingPoint;
+    public GameObject scoreLabel;
 
     private void Awake()
     {
@@ -35,7 +38,12 @@ public class GameManager : MonoBehaviour
     }
       public static void Restart()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if(GameManager.Instance.PlayerScore > 0)
+        { //GameObject.FindGameObjectWithTag("ScoreLabel")
+           GameManager.Instance.scoreLabel.GetComponent<TextMeshProUGUI>().SetText("Score: "+ GameManager.Instance.PlayerScore.ToString());
+        }
+        Debug.Log(GameManager.Instance.PlayerScore);
         
     }
 
@@ -77,9 +85,9 @@ public class GameManager : MonoBehaviour
         EnergyBar.value = energy;
     }
 
-    public int GetScore(float posZ)
+    public void setScore(float posZ)
     {
-        return (int)(MaxScore * (posZ - StartingZ) / (landingPoint.transform.position.z - StartingZ));
+        PlayerScore = (int)(MaxScore * (posZ - StartingZ) / (landingPoint.transform.position.z - StartingZ));
     }
 
     public void OnExitButtonClicked()
