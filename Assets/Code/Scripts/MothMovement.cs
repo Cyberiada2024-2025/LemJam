@@ -56,7 +56,7 @@ public class MothMovement : MonoBehaviour
     private Rigidbody rb;
 
     private bool IsFalling => rb.velocity.y < 0;
-
+    [SerializeField] private int satStr;
     [SerializeField] private AudioClip VictorySound;
     [SerializeField] private AudioClip DieFallSound;
     [SerializeField] private AudioClip DieSound;
@@ -149,7 +149,6 @@ public class MothMovement : MonoBehaviour
         }
 
         if (is_dead){
-            var step = 1000 * Time.deltaTime;
             var camera = GameObject.Find("Main Camera").GetComponent<Transform>();
             var rotation = Quaternion.LookRotation(transform.position - camera.position);
             camera.rotation = Quaternion.Slerp(camera.rotation, rotation, Time.deltaTime * 6);
@@ -229,7 +228,15 @@ public class MothMovement : MonoBehaviour
         {
             CurrentEnergy = MaxEnergy;
         }
-        GameManager.Instance.postProcess.GetComponent<ColorAdjustments>().saturation.value = CurrentEnergy; 
+
+        if (GameManager.Instance.postProcess.profile.TryGet<ColorAdjustments>(out var colorAdjustments))
+        {
+            Debug.Log(finalForce*satStr);
+            colorAdjustments.saturation.value = Mathf.Clamp(finalForce*satStr, 0, 10);
+            // colorAdjustments.contrast.value = CurrentEnergy-50f *1.5f;
+        }
+        // GameManager.Instance.postProcess.GetComponent<ColorAdjustments>().saturation.value = CurrentEnergy; 
+        // ColorGrading cg = GameManager.Instance.postProcess.Add
     }
 
 
@@ -263,6 +270,8 @@ public class MothMovement : MonoBehaviour
     public void Death()
     {
         is_dead = true;
+            Debug.Log("xxxxxxx");
+
         StartCoroutine(Fade());
         ScoreTextSetter.scoreToSet = GameManager.Instance.GetScore(transform.position.z);
     }
@@ -280,7 +289,7 @@ public class MothMovement : MonoBehaviour
 			yield return null;
 		}
         
-         GameManager.Restart();
+        GameManager.Restart();
 		canvasGroup.interactable = false;	
     } 
     public void TurnOn()
