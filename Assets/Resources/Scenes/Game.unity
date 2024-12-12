@@ -40174,7 +40174,7 @@ Transform:
   m_GameObject: {fileID: 751812512}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.42, y: 14.050001, z: -32.08}
+  m_LocalPosition: {x: 13.97, y: 7.51, z: -24.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -40221,7 +40221,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  max_height: 30
+  max_height: 35
   max_rising_time: 3
   distance_to_activate: 45
   floating_frequency: 1
@@ -40429,7 +40429,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  max_height: 30
+  max_height: 50
   max_rising_time: 3
   distance_to_activate: 45
   floating_frequency: 1
@@ -45544,7 +45544,7 @@ Transform:
   m_GameObject: {fileID: 1153797025}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 80.4, y: 11.31, z: 95.29}
+  m_LocalPosition: {x: 8.9, y: 11.31, z: 95.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -45591,7 +45591,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  max_height: 30
+  max_height: 40
   max_rising_time: 3
   distance_to_activate: 45
   floating_frequency: 1
@@ -50673,7 +50673,7 @@ Transform:
   m_GameObject: {fileID: 1296155484}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.31, y: 1.4, z: 119.08}
+  m_LocalPosition: {x: -3.94, y: 6.57, z: -76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -50798,7 +50798,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  max_height: 30
+  max_height: 40
   max_rising_time: 3
   distance_to_activate: 45
   floating_frequency: 1
@@ -66295,7 +66295,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  max_height: 30
+  max_height: 50
   max_rising_time: 3
   distance_to_activate: 45
   floating_frequency: 1
@@ -72001,7 +72001,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  max_height: 30
+  max_height: 50
   max_rising_time: 3
   distance_to_activate: 45
   floating_frequency: 1
@@ -82441,7 +82441,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  max_height: 30
+  max_height: 50
   max_rising_time: 3
   distance_to_activate: 45
   floating_frequency: 1

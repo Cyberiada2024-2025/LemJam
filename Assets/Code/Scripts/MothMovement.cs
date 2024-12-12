@@ -235,7 +235,7 @@ public class MothMovement : MonoBehaviour
         {
             CurrentEnergy = MaxEnergy;
         }
-        GameManager.Instance.postProcess.GetComponent<ColorAdjustments>().saturation.value = CurrentEnergy; 
+        //GameManager.Instance.postProcess.GetComponent<ColorAdjustments>().saturation.value = CurrentEnergy; 
     }
 
 
