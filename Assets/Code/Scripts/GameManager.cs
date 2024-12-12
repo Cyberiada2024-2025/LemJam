@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     public MothMovement player;
     public CameraBoxScript cameraBox;
+    public Transform landingPoint;
 
     private void Awake()
     {
@@ -32,6 +33,10 @@ public class GameManager : MonoBehaviour
         if (cameraBox == null)
         {
             cameraBox = GameObject.FindGameObjectWithTag("CameraBox").GetComponent<CameraBoxScript>();
+        }
+        if (landingPoint == null)
+        {
+            landingPoint = GameObject.FindGameObjectWithTag("LandingPoint").transform;
         }
     }
 
