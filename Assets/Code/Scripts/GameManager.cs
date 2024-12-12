@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public MothMovement player;
     public Slider EnergyBar;
+    public Canvas PauseMenuCanvas;
     public CameraBoxScript cameraBox;
     public Transform landingPoint;
 
@@ -28,6 +31,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+        PauseMenuCanvas.enabled = false;
     }
       public static void Restart()
     {
@@ -53,6 +57,21 @@ public class GameManager : MonoBehaviour
 
         EnergyBar.value = player.GetCurrentEnergy();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseMenu();
+        }
+    }
+
+    public void PauseMenu()
+    {
+        PauseMenuCanvas.enabled = true;
+        Time.timeScale = 0;
+    }
+
     public void SetEnergy(float energy)
     {
         EnergyBar.value = energy;
@@ -61,6 +80,26 @@ public class GameManager : MonoBehaviour
     public int GetScore(float posZ)
     {
         return (int)(MaxScore * (posZ - StartingZ) / (landingPoint.transform.position.z - StartingZ));
+    }
+
+    public void OnExitButtonClicked()
+    {
+#if UNITY_EDITOR
+UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
+    public void OnResumeButtonClicked()
+    {
+        PauseMenuCanvas.enabled = false;
+        Time.timeScale = 1;
+       
+    }
+    
+    public void OnRestartButtonClicked()
+    {
+        Time.timeScale = 1;
+        PauseMenuCanvas.enabled = false;
     }
 
 }
