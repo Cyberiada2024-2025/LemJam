@@ -153,9 +153,9 @@ public class MothMovement : MonoBehaviour
 
         AddGravity();
 
-        if (IsFalling && rb.velocity.y < GlidingSpeed) {
+        if (IsFalling) {
             float newVelocity = Mathf.Lerp(rb.velocity.y, GlidingSpeed, GlideFactor * (1-dashDescending) * Time.deltaTime);
-            rb.velocity = new Vector3(rb.velocity.x, newVelocity, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, newVelocity, 0);
         }
 
         // ustawianie ładnego obrotu ćmy
@@ -180,7 +180,7 @@ public class MothMovement : MonoBehaviour
             //Debug.Log("flap");
             
             anim.SetTrigger("flap");
-            rb.velocity = new Vector3(rb.velocity.x, force, rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, force, 0);
             lastFlapTime = Time.time;
             CurrentEnergy -= 3;
             source.PlayOneShot(FlapSound, AudioListener.volume);
@@ -259,6 +259,7 @@ public class MothMovement : MonoBehaviour
     {
         is_dead = true;
         StartCoroutine(Fade());
+        ScoreTextSetter.scoreToSet = GameManager.Instance.GetScore(transform.position.z);
     }
     
 private IEnumerator Fade(){

@@ -8,6 +8,7 @@ TagManager:
   - Attractor
   - CameraBox
   - LandingPoint
+  - ScoreText
   layers:
   - Default
   - TransparentFX

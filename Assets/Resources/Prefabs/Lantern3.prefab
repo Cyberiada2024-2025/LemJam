@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4074853846598843996, guid: 81a3abdfc509d3e48a7bcbc7ff565fd8, type: 3}
+      propertyPath: distance_to_activate
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 4310764780646047850, guid: 81a3abdfc509d3e48a7bcbc7ff565fd8, type: 3}
       propertyPath: m_Name
       value: Lantern3
