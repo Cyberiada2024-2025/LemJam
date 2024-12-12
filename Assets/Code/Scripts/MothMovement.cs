@@ -17,6 +17,7 @@ public class MothMovement : MonoBehaviour
     private float CurrentEnergy = 50;
     public float MaxEnergy = 100;
     public float RechargingSpeedFactor = 1.0f;
+    public float DeathFallZone = -8;
 
     public float ForwardSpeed = 1;
     public float MaxHorizontalSpeed = 50;
@@ -27,6 +28,7 @@ public class MothMovement : MonoBehaviour
 
     public float GravityForce = 1;
 
+    private float TimeStamp = 0;
 
 
     public float RotationForce = 0.1f;  // jak szybko obraca się lewo-prawo (w % na sekundę) (tzn 0.1 === 10%)
@@ -43,6 +45,7 @@ public class MothMovement : MonoBehaviour
     private List<Attractor> attractors = new List<Attractor>();
     private float attractionForce;
     private Vector3 attractionVector;
+    private AudioSource source;
 
 
     private float dashDescending;  // czy w danym momencie ma złożone skrzydła i leci szybko w dół (0 = nie, 1 = tak, 0.5 = trochę tak, trochę nie)
@@ -51,17 +54,25 @@ public class MothMovement : MonoBehaviour
 
     private bool IsFalling => rb.velocity.y < 0;
 
+    [SerializeField] private AudioClip VictorySound;
+    [SerializeField] private AudioClip DieFallSound;
+    [SerializeField] private AudioClip DieSound;
+    [SerializeField] private AudioClip FlapSound;
+    [SerializeField] private AudioClip SrobkaSound;
+
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Hello~! I am a mmmmmmmoth!");
         rb = GetComponent<Rigidbody>();
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!is_dead){ 
+        TimeStamp += Time.deltaTime;
+        if (!is_dead){ 
             CalculateAttractionForce();
             GameManager.Instance.SetEnergy(CurrentEnergy);
 
@@ -124,6 +135,12 @@ public class MothMovement : MonoBehaviour
                     Flap(FlapForce * AttractionFlapForceMultiplier);
                 }
             }
+            
+            if (transform.position.y< DeathFallZone+ GameManager.Instance.cameraBox.GetY())
+            {
+                source.PlayOneShot(DieFallSound, AudioListener.volume);
+                Death();
+            }
         }
 
         if (is_dead){
@@ -166,13 +183,22 @@ public class MothMovement : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, force, 0);
             lastFlapTime = Time.time;
             CurrentEnergy -= 3;
+            source.PlayOneShot(FlapSound, AudioListener.volume);
+            if (TimeStamp > 3)
+            {
+                source.PlayOneShot(SrobkaSound, AudioListener.volume);
+                Debug.Log(DeathFallZone + GameManager.Instance.cameraBox.GetY());
+                TimeStamp = 0;
+            }
+            
         }
         else {
             //Debug.Log("NO FLAP :c");
         }
     }
 
-    void AddGravity() {
+
+        void AddGravity() {
         rb.AddForce(-GravityForce * Vector3.up);
     }
 
@@ -255,6 +281,7 @@ private IEnumerator Fade(){
     {
         if (other.CompareTag("LanternDeathZone"))
         {
+            source.PlayOneShot(DieSound, AudioListener.volume);
             Death();
             Debug.Log("Entered Death Zone");
             Debug.Log("Score: " + GameManager.Instance.GetScore(transform.position.z));

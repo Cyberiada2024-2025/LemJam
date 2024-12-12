@@ -18,6 +18,7 @@ public class CameraBoxScript : MonoBehaviour
 
     public float BoundaryX = 10.0f;
     public float LerpSpeed = 2.0f;
+    private float pos_y;
 
     [SerializeField]
     CinemachineVirtualCamera startCamera;
@@ -27,6 +28,7 @@ public class CameraBoxScript : MonoBehaviour
     void Start()
     {
         start_position = transform.position.z;
+        pos_y = height;
     }
 
     // Update is called once per frame
@@ -38,7 +40,7 @@ public class CameraBoxScript : MonoBehaviour
 
             if (cur_position < finish.position.z)
             {
-                float pos_y = height * curve.Evaluate(cur_position / (finish.position.z - start_position));
+                pos_y = height * curve.Evaluate(cur_position / (finish.position.z - start_position));
 
                 float target_x = GameManager.Instance.player.transform.position.x;
                 if (target_x > BoundaryX) {
@@ -62,6 +64,11 @@ public class CameraBoxScript : MonoBehaviour
     {
         is_started = true;
         startCamera.enabled = false;
+    }
+
+    public float GetY()
+    {
+        return pos_y;
     }
 
 }

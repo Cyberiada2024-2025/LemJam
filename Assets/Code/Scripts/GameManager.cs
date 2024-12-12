@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public Canvas PauseMenuCanvas;
     public CameraBoxScript cameraBox;
     public Transform landingPoint;
+    
 
     private void Awake()
     {
