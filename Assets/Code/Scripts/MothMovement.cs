@@ -136,11 +136,11 @@ public class MothMovement : MonoBehaviour
                 }
             }
             
-            if (transform.position.y< DeathFallZone+ GameManager.Instance.cameraBox.GetY())
+            /*if (transform.position.y< DeathFallZone+ GameManager.Instance.cameraBox.GetY())
             {
                 source.PlayOneShot(DieFallSound, AudioListener.volume);
                 Death();
-            }
+            }*/
         }
 
         if (is_dead){
@@ -254,14 +254,20 @@ public class MothMovement : MonoBehaviour
 
     }
 
-    private void Death()
+    public void Death()
     {
         is_dead = true;
         StartCoroutine(Fade());
         ScoreTextSetter.scoreToSet = GameManager.Instance.GetScore(transform.position.z);
     }
-    
-private IEnumerator Fade(){
+
+    public void SafeDeath()
+    {        
+        StartCoroutine(Fade());
+        ScoreTextSetter.scoreToSet = GameManager.Instance.GetScore(transform.position.z);
+    }
+
+    private IEnumerator Fade(){
 		CanvasGroup canvasGroup = GameObject.Find("FadeToBlack").GetComponent<CanvasGroup>();
 		while (canvasGroup.alpha < 1){
 			canvasGroup.alpha += Time.deltaTime/3;
@@ -269,8 +275,7 @@ private IEnumerator Fade(){
 		}
         
          GameManager.Restart();
-		canvasGroup.interactable = false;
-		yield return null;
+		canvasGroup.interactable = false;	
     } 
     public void TurnOn()
     {

@@ -61,6 +61,7 @@ public class MothLanding : MonoBehaviour
             //Debug.Log("land");
             //isLanded=false;
             transform.rotation = Quaternion.Euler(0, 0, 0);
+            GetComponent<MothMovement>().SafeDeath();
         }
     }
 
