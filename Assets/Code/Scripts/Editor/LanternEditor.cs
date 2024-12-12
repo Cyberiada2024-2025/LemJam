@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 
-[CustomEditor(typeof(LampionMovement))]
+[CustomEditor(typeof(LampionMovement)), CanEditMultipleObjects]
 public class LanternEditor : Editor
 {
     void OnSceneGUI()
