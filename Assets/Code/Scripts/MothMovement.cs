@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MothMovement : MonoBehaviour
 {
+    private bool is_dead = false;
     private float currentRotation = 0;  // obrót tylko w osi w której ćma leci - w zakresie [-1, 1]. Wpływa na prędkość ruchu w tym kierunku
     public float MaxRotation = 30;  // w stopniach, tylko graficzne (nie wpływa na mechanikę lotu)
 
@@ -37,55 +39,65 @@ public class MothMovement : MonoBehaviour
     void Start()
     {
         //Debug.Log("Hello~! I am a mmmmmmmoth!");
+        is_dead = false;
         rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            Debug.Log("flap.");
-            Flap();
-        }
+        if(!is_dead){            
+            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+                Debug.Log("flap.");
+                Flap();
+            }
 
-        if (Input.GetKey(KeyCode.DownArrow)) {
-            dashDescending = true;
-        } else {
-            dashDescending = false;
-        }
-        
-        bool arrowsPressed = false;
-        if (Input.GetKey(KeyCode.RightArrow)) {
-            //Debug.Log("right.");
-            arrowsPressed = true;
-            currentRotation -= RotationForce * Time.deltaTime;
+            if (Input.GetKey(KeyCode.DownArrow)) {
+                dashDescending = true;
+            } else {
+                dashDescending = false;
+            }
+            
+            bool arrowsPressed = false;
+            if (Input.GetKey(KeyCode.RightArrow)) {
+                //Debug.Log("right.");
+                arrowsPressed = true;
+                currentRotation -= RotationForce * Time.deltaTime;
 
-            if (currentRotation < -1) {
-                currentRotation = -1;
+                if (currentRotation < -1) {
+                    currentRotation = -1;
+                }
+            }
+
+            if (Input.GetKey(KeyCode.LeftArrow)) {
+                //Debug.Log("left.");
+                arrowsPressed = true;
+                currentRotation += RotationForce * Time.deltaTime;
+
+                if (currentRotation > 1) {
+                    currentRotation = 1;
+                }
+            }
+
+            if (!arrowsPressed) {
+                if (currentRotation > 0) {
+                    currentRotation -= RotationResetForce * Time.deltaTime;
+                    currentRotation = Mathf.Max(currentRotation, 0);
+                }
+                else {
+                    currentRotation += RotationResetForce * Time.deltaTime;
+                    currentRotation = Mathf.Min(currentRotation, 0);
+                }
             }
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow)) {
-            //Debug.Log("left.");
-            arrowsPressed = true;
-            currentRotation += RotationForce * Time.deltaTime;
-
-            if (currentRotation > 1) {
-                currentRotation = 1;
-            }
+        if (is_dead){
+            
+            var step = 1000 * Time.deltaTime;
+            var camera = GameObject.Find("Main Camera").GetComponent<Transform>();
+            var rotation = Quaternion.LookRotation(transform.position - camera.position);
+            camera.rotation = Quaternion.Slerp(camera.rotation, rotation, Time.deltaTime * 6);
         }
-
-        if (!arrowsPressed) {
-            if (currentRotation > 0) {
-                currentRotation -= RotationResetForce * Time.deltaTime;
-                currentRotation = Mathf.Max(currentRotation, 0);
-            }
-            else {
-                currentRotation += RotationResetForce * Time.deltaTime;
-                currentRotation = Mathf.Min(currentRotation, 0);
-            }
-        }
-
 
         AddGravity();
 
@@ -118,12 +130,30 @@ public class MothMovement : MonoBehaviour
     }
 
 
+    private void Death()
+    {
+        is_dead = true;
+        StartCoroutine(Fade());
+        //  GameManager.Restart();
+    }
 
+    private IEnumerator Fade(){
+		CanvasGroup canvasGroup = GameObject.Find("FadeToBlack").GetComponent<CanvasGroup>();
+		while (canvasGroup.alpha < 1){
+			canvasGroup.alpha += Time.deltaTime/3;
+			yield return null;
+		}
+        
+         GameManager.Restart();
+		canvasGroup.interactable = false;
+		yield return null;
+    } 
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("LanternDeathZone"))
         {
+            Death();
             Debug.Log("Entered Death Zone");
         }
     }
