@@ -161,7 +161,7 @@ PrefabInstance:
     - target: {fileID: -1439730007547781893, guid: ed53b977325970f499591e7bd1d5647a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: da82e36427f70c0449de0c90210aed43, type: 2}
+      objectReference: {fileID: 2100000, guid: 0a93a6e9fe10439f5b5b2a41d6a77aeb, type: 2}
     - target: {fileID: 919132149155446097, guid: ed53b977325970f499591e7bd1d5647a, type: 3}
       propertyPath: m_Name
       value: lantern_2
