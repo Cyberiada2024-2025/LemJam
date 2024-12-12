@@ -101,14 +101,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxRotation: 30
-  ForwardSpeed: 0.1
-  MaxHorizontalSpeed: 2
-  FlapForce: 2
+  MaxEnergy: 100
+  RechargingSpeedFactor: 1
+  ForwardSpeed: 2
+  MaxHorizontalSpeed: 3
+  FlapForce: 4
   FlapCooldown: 0.5
   GravityForce: 5
   RotationForce: 5
   RotationResetForce: 2
-  GlidingSpeed: -0.5
+  GlidingSpeed: -5
   GlideFactor: 15
   AttractionFlapForceMultiplier: 0.75
   AttractionFlapInterval: 1.5
