@@ -47,6 +47,8 @@ public class MothMovement : MonoBehaviour
     private float dashDescending;  // czy w danym momencie ma złożone skrzydła i leci szybko w dół (0 = nie, 1 = tak, 0.5 = trochę tak, trochę nie)
 
     private Rigidbody rb;
+    [SerializeField]
+    private Animator anim;
 
     private bool IsFalling => rb.velocity.y < 0;
 
@@ -55,7 +57,7 @@ public class MothMovement : MonoBehaviour
     {
         //Debug.Log("Hello~! I am a mmmmmmmoth!");
         is_dead = false;
-        rb = GetComponent<Rigidbody>();
+        rb =  GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -77,8 +79,11 @@ public class MothMovement : MonoBehaviour
 
             if (Input.GetKey(KeyCode.DownArrow)) {
                 dashDescending = 1;
+                anim.SetBool("Descend", true); 
             } else {
                 dashDescending = 0;
+                anim.SetBool("Descend", false); 
+
             }
             
             
@@ -159,6 +164,7 @@ public class MothMovement : MonoBehaviour
     void Flap(float force) {
         if (Time.time - lastFlapTime > FlapCooldown && CurrentEnergy >= 0) {
             Debug.Log("flap");
+            anim.SetTrigger("flap");
             rb.velocity = new Vector3(rb.velocity.x, force, rb.velocity.z);
             lastFlapTime = Time.time;
             CurrentEnergy -= 3;
