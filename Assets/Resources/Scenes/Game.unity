@@ -725,6 +725,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 925de1bfca0e8a54983e8f9609493960, type: 3}
     - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
+      propertyPath: FlapCooldown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
       propertyPath: ForwardSpeed
       value: 8
       objectReference: {fileID: 0}
