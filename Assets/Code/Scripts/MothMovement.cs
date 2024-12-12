@@ -64,6 +64,11 @@ public class MothMovement : MonoBehaviour
     [SerializeField] private AudioClip FlapSound;
     [SerializeField] private AudioClip SrobkaSound;
 
+    [SerializeField] private ParticleSystem boom;
+    [SerializeField] private ParticleSystem sparks;
+    [SerializeField] private ParticleSystem fire;
+    [SerializeField] private ParticleSystem smoke;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -269,6 +274,18 @@ public class MothMovement : MonoBehaviour
     public void Death()
     {
         is_dead = true;
+        var emission = boom.emission; 
+        emission.rateOverTime = 5;
+        emission = sparks.emission;
+        emission.rateOverTime = 5;
+        emission = fire.emission; 
+        emission.rateOverTime = 5;
+        emission = smoke.emission; 
+        emission.rateOverTime = 5;
+        boom.Play();
+        sparks.Play();
+        fire.Play();
+        smoke.Play();
         StartCoroutine(Fade());
         ScoreTextSetter.scoreToSet = GameManager.Instance.GetScore(transform.position.z);
     }
