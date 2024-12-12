@@ -33,11 +33,7 @@ public class LampionMovement : MonoBehaviour
 
 
     [SerializeField]
-    float floating_amplitude = 1;
-
-
-
-
+    float floating_amplitude = 1;            
 
 
     // Start is called before the first frame update
@@ -45,6 +41,7 @@ public class LampionMovement : MonoBehaviour
     {
         start_position = transform.position.y;
         //state = LampionState.RISING;
+        //death.startSize = sphere.radius;        
     }
 
     
