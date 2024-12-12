@@ -240,6 +240,8 @@ public class MothMovement : MonoBehaviour
             float distance = Vector3.Distance(transform.position, attractor.transform.position);
             float radius = attractor.Radius;
 
+            distance = Mathf.Min(distance, radius);
+
             var force = (1 - distance / radius) * attractor.AttractionForce;
             var forceVector = attractor.transform.position - transform.position;
 
