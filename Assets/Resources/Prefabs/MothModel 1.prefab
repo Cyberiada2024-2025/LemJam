@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2120036884934626358}
   - component: {fileID: 2191278124850120137}
   - component: {fileID: 8790350835829180982}
-  - component: {fileID: 6145027827526838764}
+  - component: {fileID: 4133802920002606438}
   m_Layer: 0
   m_Name: MothModel 1
   m_TagString: Player
@@ -132,8 +132,8 @@ MonoBehaviour:
   GlideFactor: 15
   AttractionFlapForceMultiplier: 0.75
   AttractionFlapInterval: 1.5
---- !u!135 &6145027827526838764
-SphereCollider:
+--- !u!65 &4133802920002606438
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -151,7 +151,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Size: {x: 8, y: 1, z: 8}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &5581694105067374214
 PrefabInstance:
