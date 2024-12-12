@@ -713,12 +713,24 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
+      propertyPath: GravityForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
       propertyPath: MaxHorizontalSpeed
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
+      propertyPath: RechargingSpeedFactor
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
       propertyPath: AttractionFlapInterval
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8790350835829180982, guid: f0851aaa3bd6ffa43a686e638f3b0525, type: 3}
+      propertyPath: RechargingSpeedDistancePowFactor
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
