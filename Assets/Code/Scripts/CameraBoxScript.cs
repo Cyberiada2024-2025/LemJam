@@ -15,6 +15,9 @@ public class CameraBoxScript : MonoBehaviour
     [SerializeField]
     public float height = 20.0f;
 
+    public float BoundaryX = 10.0f;
+    public float LerpSpeed = 2.0f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +26,7 @@ public class CameraBoxScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (is_started)
         {
@@ -32,7 +35,18 @@ public class CameraBoxScript : MonoBehaviour
             if (cur_position < finish.position.z)
             {
                 float pos_y = height * curve.Evaluate(cur_position / (finish.position.z - start_position));
-                Vector3 new_position = new Vector3(transform.position.x, pos_y, transform.position.z + GameManager.Instance.player.ForwardSpeed * Time.deltaTime);
+
+                float target_x = GameManager.Instance.player.transform.position.x;
+                if (target_x > BoundaryX) {
+                    target_x = BoundaryX;
+                } else if (target_x < -BoundaryX) {
+                    target_x = -BoundaryX;
+                }
+
+                Vector3 new_position = new Vector3(Mathf.Lerp(transform.position.x, target_x, LerpSpeed * Time.deltaTime),
+                    pos_y,
+                    transform.position.z + GameManager.Instance.player.ForwardSpeed * Time.deltaTime
+                );
                 transform.position = new_position;
             }
         }
