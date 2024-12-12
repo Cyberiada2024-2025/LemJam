@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Video;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -227,6 +229,7 @@ public class MothMovement : MonoBehaviour
         {
             CurrentEnergy = MaxEnergy;
         }
+        GameManager.Instance.postProcess.GetComponent<ColorAdjustments>().saturation.value = CurrentEnergy; 
     }
 
 
