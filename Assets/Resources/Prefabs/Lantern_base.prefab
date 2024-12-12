@@ -178,7 +178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3022271492280487384, guid: d1e59347d24b9654b8b71736221dbbed, type: 3}
       propertyPath: m_Radius
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4283711350949806334, guid: d1e59347d24b9654b8b71736221dbbed, type: 3}
       propertyPath: m_Name
@@ -186,7 +186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146001646185692343, guid: d1e59347d24b9654b8b71736221dbbed, type: 3}
       propertyPath: AttractionForce
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

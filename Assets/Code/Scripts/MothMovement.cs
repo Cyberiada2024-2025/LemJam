@@ -6,7 +6,7 @@ using UnityEngine.Video;
 [RequireComponent(typeof(Rigidbody))]
 public class MothMovement : MonoBehaviour
 {
-    private bool is_started = false;
+    public bool is_started = false;
 
     [SerializeField]
     private Animator anim;
@@ -17,6 +17,7 @@ public class MothMovement : MonoBehaviour
     private float CurrentEnergy = 50;
     public float MaxEnergy = 100;
     public float RechargingSpeedFactor = 1.0f;
+    public float RechargingSpeedDistancePowFactor = 2.0f;
     public float DeathFallZone = -8;
 
     public float ForwardSpeed = 1;
@@ -130,21 +131,22 @@ public class MothMovement : MonoBehaviour
                 dashDescending = Mathf.Max(dashDescending, 0);
             } else if (attractionVector.y > 0) {
                 attractionFlapTimer += attractionVector.y * Time.deltaTime;
-                if (attractionFlapTimer >= AttractionFlapInterval) {
+                if (attractionFlapTimer >= AttractionFlapInterval && dashDescending <= 0.25) {
                     attractionFlapTimer = 0;
                     Flap(FlapForce * AttractionFlapForceMultiplier);
                 }
             }
             
-            /*if (transform.position.y< DeathFallZone+ GameManager.Instance.cameraBox.GetY())
+            /*
+            if (transform.position.y< DeathFallZone+ GameManager.Instance.cameraBox.GetY())
             {
                 source.PlayOneShot(DieFallSound, AudioListener.volume);
                 Death();
-            }*/
+            }
+            */
         }
 
         if (is_dead){
-            
             var step = 1000 * Time.deltaTime;
             var camera = GameObject.Find("Main Camera").GetComponent<Transform>();
             var rotation = Quaternion.LookRotation(transform.position - camera.position);
@@ -215,7 +217,7 @@ public class MothMovement : MonoBehaviour
             var force = (1 - distance / radius) * attractor.AttractionForce;
             var forceVector = attractor.transform.position - transform.position;
 
-            combinedVector += forceVector * force / (distance);
+            combinedVector += forceVector * force / (Mathf.Pow(distance, RechargingSpeedDistancePowFactor));
         }
 
         var finalForce = combinedVector.magnitude;
