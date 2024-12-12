@@ -17,6 +17,7 @@ public class MothMovement : MonoBehaviour
     private float CurrentEnergy = 50;
     public float MaxEnergy = 100;
     public float RechargingSpeedFactor = 1.0f;
+    public float RechargingSpeedDistancePowFactor = 2.0f;
     public float DeathFallZone = -8;
 
     public float ForwardSpeed = 1;
@@ -216,7 +217,7 @@ public class MothMovement : MonoBehaviour
             var force = (1 - distance / radius) * attractor.AttractionForce;
             var forceVector = attractor.transform.position - transform.position;
 
-            combinedVector += forceVector * force / (distance);
+            combinedVector += forceVector * force / (Mathf.Pow(distance, RechargingSpeedDistancePowFactor));
         }
 
         var finalForce = combinedVector.magnitude;
