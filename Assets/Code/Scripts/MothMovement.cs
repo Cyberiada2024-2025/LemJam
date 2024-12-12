@@ -224,6 +224,7 @@ public class MothMovement : MonoBehaviour
         if (other.CompareTag("LanternDeathZone"))
         {
             Debug.Log("Entered Death Zone");
+            Debug.Log("Score: " + GameManager.Instance.GetScore(transform.position.z));
         }
         else if (other.CompareTag("Attractor")) {
             var attractor = other.GetComponent<Attractor>();
