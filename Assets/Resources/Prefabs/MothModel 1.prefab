@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2191278124850120137}
   - component: {fileID: 8790350835829180982}
   - component: {fileID: 4133802920002606438}
+  - component: {fileID: 9097294239718602151}
   m_Layer: 0
   m_Name: MothModel 1
   m_TagString: Player
@@ -121,17 +122,23 @@ MonoBehaviour:
   MaxRotation: 30
   MaxEnergy: 100
   RechargingSpeedFactor: 1
-  ForwardSpeed: 2
-  MaxHorizontalSpeed: 2
+  DeathFallZone: -8
+  ForwardSpeed: 8
+  MaxHorizontalSpeed: 4
   FlapForce: 8
   FlapCooldown: 0.5
   GravityForce: 5
   RotationForce: 5
   RotationResetForce: 2
   GlidingSpeed: -0.5
-  GlideFactor: 15
+  GlideFactor: 100
   AttractionFlapForceMultiplier: 0.75
-  AttractionFlapInterval: 1.5
+  AttractionFlapInterval: 0
+  VictorySound: {fileID: 0}
+  DieFallSound: {fileID: 0}
+  DieSound: {fileID: 0}
+  FlapSound: {fileID: 0}
+  SrobkaSound: {fileID: 0}
 --- !u!65 &4133802920002606438
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -151,8 +158,22 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8, y: 1, z: 8}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 4, y: 1, z: 6}
+  m_Center: {x: 0, y: 0, z: -0.5}
+--- !u!114 &9097294239718602151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922180244670105452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06501ec89e8b5244b461ecf2ade3d12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDuration: 2
+  AfterLandingTime: 0.5
 --- !u!1001 &5581694105067374214
 PrefabInstance:
   m_ObjectHideFlags: 0
