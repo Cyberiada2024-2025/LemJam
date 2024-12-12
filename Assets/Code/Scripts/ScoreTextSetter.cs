@@ -12,7 +12,7 @@ public class ScoreTextSetter : MonoBehaviour
     {
         if(scoreToSet != 0)
         {
-            GetComponent<TMP_Text>().text = "Wynik: " + scoreToSet.ToString();
+            GetComponent<TMP_Text>().text = "Score: " + scoreToSet.ToString();
         }
     }
 
