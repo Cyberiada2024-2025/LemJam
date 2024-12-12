@@ -61,7 +61,7 @@ public class MothMovement : MonoBehaviour
         CalculateAttractionForce();
 
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
             Flap(FlapForce);
         }
 
