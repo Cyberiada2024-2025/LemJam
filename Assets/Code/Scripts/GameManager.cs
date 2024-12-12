@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using UnityEngine.SceneManagement;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -25,6 +27,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static void Restart()
+    {
+        SceneManager.LoadScene("Game");
+        
+    }
     private void Start()
     {
         if(player == null)

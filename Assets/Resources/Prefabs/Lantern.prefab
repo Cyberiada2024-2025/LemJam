@@ -103,7 +103,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4791848637336980241
 GameObject:
@@ -227,9 +227,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  max_height: 10
-  max_rising_time: 10
-  distance_to_activate: 10
+  max_height: 15
+  max_rising_time: 3
+  distance_to_activate: 15
   floating_frequency: 1
   floating_amplitude: 1
 --- !u!1001 &2717009312943791408
@@ -280,9 +280,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3022271492280487384, guid: d1e59347d24b9654b8b71736221dbbed, type: 3}
+      propertyPath: m_Radius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4283711350949806334, guid: d1e59347d24b9654b8b71736221dbbed, type: 3}
       propertyPath: m_Name
       value: Attractor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146001646185692343, guid: d1e59347d24b9654b8b71736221dbbed, type: 3}
+      propertyPath: AttractionForce
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
