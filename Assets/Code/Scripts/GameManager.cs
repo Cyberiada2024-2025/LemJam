@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    private float StartingZ;
+    public int MaxScore = 1000;
+
     public static GameManager Instance;
 
     public MothMovement player;
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
         if(player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<MothMovement>();
+            StartingZ = player.transform.position.z;
         }
         if (cameraBox == null)
         {
@@ -46,6 +50,11 @@ public class GameManager : MonoBehaviour
     public void SetEnergy(float energy)
     {
         EnergyBar.value = energy;
+    }
+
+    public int GetScore(float posZ)
+    {
+        return (int)(MaxScore * (posZ - StartingZ) / (landingPoint.transform.position.z - StartingZ));
     }
 
 }
