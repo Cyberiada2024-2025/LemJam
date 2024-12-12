@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MothMovement : MonoBehaviour
 {
     private bool is_started = false;
 
+    private bool is_dead = false;
     private float currentRotation = 0;  // obrót tylko w osi w której ćma leci - w zakresie [-1, 1]. Wpływa na prędkość ruchu w tym kierunku
     public float MaxRotation = 30;  // w stopniach, tylko graficzne (nie wpływa na mechanikę lotu)
 
@@ -52,72 +54,83 @@ public class MothMovement : MonoBehaviour
     void Start()
     {
         //Debug.Log("Hello~! I am a mmmmmmmoth!");
+        is_dead = false;
         rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        CalculateAttractionForce();
-
-
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
-            Flap(FlapForce);
-        }
-
-        if(!is_started)
-        {
-            return;
-        }
-
-        if (Input.GetKey(KeyCode.DownArrow)) {
-            dashDescending = 1;
-        } else {
-            dashDescending = 0;
-        }
         
-        
-        bool arrowsPressed = false;
-        if (Input.GetKey(KeyCode.RightArrow)) {
-            //Debug.Log("right.");
-            arrowsPressed = true;
-            currentRotation -= RotationForce * Time.deltaTime;
-        }
+        if(!is_dead){            
+            CalculateAttractionForce();
 
-        if (Input.GetKey(KeyCode.LeftArrow)) {
-            //Debug.Log("left.");
-            arrowsPressed = true;
-            currentRotation += RotationForce * Time.deltaTime;
-        }
 
-        if (!arrowsPressed) {
-            if (currentRotation > 0) {
-                currentRotation -= RotationResetForce * Time.deltaTime;
-                currentRotation = Mathf.Max(currentRotation, 0);
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
+                Flap(FlapForce);
             }
-            else {
-                currentRotation += RotationResetForce * Time.deltaTime;
-                currentRotation = Mathf.Min(currentRotation, 0);
+
+            if(!is_started)
+            {
+                return;
+            }
+
+            if (Input.GetKey(KeyCode.DownArrow)) {
+                dashDescending = 1;
+            } else {
+                dashDescending = 0;
+            }
+            
+            
+            bool arrowsPressed = false;
+            if (Input.GetKey(KeyCode.RightArrow)) {
+                //Debug.Log("right.");
+                arrowsPressed = true;
+                currentRotation -= RotationForce * Time.deltaTime;
+            }
+
+            if (Input.GetKey(KeyCode.LeftArrow)) {
+                //Debug.Log("left.");
+                arrowsPressed = true;
+                currentRotation += RotationForce * Time.deltaTime;
+            }
+
+            if (!arrowsPressed) {
+                if (currentRotation > 0) {
+                    currentRotation -= RotationResetForce * Time.deltaTime;
+                    currentRotation = Mathf.Max(currentRotation, 0);
+                }
+                else {
+                    currentRotation += RotationResetForce * Time.deltaTime;
+                    currentRotation = Mathf.Min(currentRotation, 0);
+                }
+            }
+
+            currentRotation -= attractionVector.x * Time.deltaTime;
+            if (currentRotation > 1) {
+                currentRotation = 1;
+            } else if (currentRotation < -1) {
+                currentRotation = -1;
+            }
+            if (attractionVector.y < 0) {
+                dashDescending -= attractionVector.y;
+                dashDescending = Mathf.Max(dashDescending, 0);
+            } else if (attractionVector.y > 0) {
+                attractionFlapTimer += attractionVector.y * Time.deltaTime;
+                if (attractionFlapTimer >= AttractionFlapInterval) {
+                    attractionFlapTimer = 0;
+                    Flap(FlapForce * AttractionFlapForceMultiplier);
+                }
             }
         }
 
-        currentRotation -= attractionVector.x * Time.deltaTime;
-        if (currentRotation > 1) {
-            currentRotation = 1;
-        } else if (currentRotation < -1) {
-            currentRotation = -1;
+        if (is_dead){
+            
+            var step = 1000 * Time.deltaTime;
+            var camera = GameObject.Find("Main Camera").GetComponent<Transform>();
+            var rotation = Quaternion.LookRotation(transform.position - camera.position);
+            camera.rotation = Quaternion.Slerp(camera.rotation, rotation, Time.deltaTime * 6);
         }
-        if (attractionVector.y < 0) {
-            dashDescending -= attractionVector.y;
-            dashDescending = Mathf.Max(dashDescending, 0);
-        } else if (attractionVector.y > 0) {
-            attractionFlapTimer += attractionVector.y * Time.deltaTime;
-            if (attractionFlapTimer >= AttractionFlapInterval) {
-                attractionFlapTimer = 0;
-                Flap(FlapForce * AttractionFlapForceMultiplier);
-            }
-        }
-
 
         AddGravity();
 
@@ -183,7 +196,24 @@ public class MothMovement : MonoBehaviour
             CurrentEnergy = MaxEnergy;
         }
     }
+    private void Death()
+    {
+        is_dead = true;
+        StartCoroutine(Fade());
+        //  GameManager.Restart();
+    }
 
+    private IEnumerator Fade(){
+		CanvasGroup canvasGroup = GameObject.Find("FadeToBlack").GetComponent<CanvasGroup>();
+		while (canvasGroup.alpha < 1){
+			canvasGroup.alpha += Time.deltaTime/3;
+			yield return null;
+		}
+        
+         GameManager.Restart();
+		canvasGroup.interactable = false;
+		yield return null;
+    } 
 
     void CalculateAttractionForce()
     {
@@ -219,6 +249,7 @@ public class MothMovement : MonoBehaviour
     {
         if (other.CompareTag("LanternDeathZone"))
         {
+            Death();
             Debug.Log("Entered Death Zone");
         }
         else if (other.CompareTag("Attractor")) {
