@@ -117,10 +117,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a97b011464a4154cabba74a3f6dcc51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  is_started: 0
   anim: {fileID: 6513284563955732911}
   MaxRotation: 30
   MaxEnergy: 100
   RechargingSpeedFactor: 1
+  RechargingSpeedDistancePowFactor: 2
   DeathFallZone: -8
   ForwardSpeed: 2
   MaxHorizontalSpeed: 2
@@ -211,6 +213,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moth
       objectReference: {fileID: 0}
+    - target: {fileID: 2681420767672798847, guid: c49b8cf8e1be04a40af39b13209c5d1b, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0bea42714c194b24184159707597e04e, type: 2}
+    - target: {fileID: 2681420767672798847, guid: c49b8cf8e1be04a40af39b13209c5d1b, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7ce45f6dd82e2a14eb8ef55de0dc6655, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

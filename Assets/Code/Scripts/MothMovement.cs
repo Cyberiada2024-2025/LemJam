@@ -16,8 +16,9 @@ public class MothMovement : MonoBehaviour
     private float currentRotation = 0;  // obrót tylko w osi w której ćma leci - w zakresie [-1, 1]. Wpływa na prędkość ruchu w tym kierunku
     public float MaxRotation = 30;  // w stopniach, tylko graficzne (nie wpływa na mechanikę lotu)
 
-    private float CurrentEnergy = 50;
-    public float MaxEnergy = 100;
+    private float CurrentEnergy;
+    public float MaxEnergy = 50;
+    public float EnergyPerFlap = 5;
     public float RechargingSpeedFactor = 1.0f;
     public float RechargingSpeedDistancePowFactor = 2.0f;
     public float DeathFallZone = -8;
@@ -69,11 +70,14 @@ public class MothMovement : MonoBehaviour
         Debug.Log("Hello~! I am a mmmmmmmoth!");
         rb = GetComponent<Rigidbody>();
         source = GetComponent<AudioSource>();
+
+        CurrentEnergy = MaxEnergy;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(CurrentEnergy);
         TimeStamp += Time.deltaTime;
         if (!is_dead){ 
             CalculateAttractionForce();
@@ -136,6 +140,8 @@ public class MothMovement : MonoBehaviour
                 if (attractionFlapTimer >= AttractionFlapInterval && dashDescending <= 0.25) {
                     attractionFlapTimer = 0;
                     Flap(FlapForce * AttractionFlapForceMultiplier);
+                    CurrentEnergy += EnergyPerFlap;
+                    CurrentEnergy -= EnergyPerFlap * 0.5f;
                 }
             }
             
@@ -179,13 +185,13 @@ public class MothMovement : MonoBehaviour
 
 
     void Flap(float force) {
-        if (Time.time - lastFlapTime > FlapCooldown && CurrentEnergy >= 0) {
+        if (Time.time - lastFlapTime > FlapCooldown && CurrentEnergy >= EnergyPerFlap) {
             //Debug.Log("flap");
             
             anim.SetTrigger("flap");
             rb.velocity = new Vector3(rb.velocity.x, force, 0);
             lastFlapTime = Time.time;
-            CurrentEnergy -= 3;
+            CurrentEnergy -= EnergyPerFlap;
             source.PlayOneShot(FlapSound, AudioListener.volume);
             if (TimeStamp > 3)
             {
@@ -223,7 +229,7 @@ public class MothMovement : MonoBehaviour
 
         var finalForce = combinedVector.magnitude;
 
-        CurrentEnergy += finalForce*RechargingSpeedFactor;
+        CurrentEnergy += finalForce * RechargingSpeedFactor * Time.deltaTime;
         if (CurrentEnergy > MaxEnergy)
         {
             CurrentEnergy = MaxEnergy;
