@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         }
         PauseMenuCanvas.enabled = false;
     }
-      public static void Restart()
+    public static void Restart()
     {
         SceneManager.LoadScene("Game");
         
@@ -62,7 +62,13 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            PauseMenu();
+            if(PauseMenuCanvas.enabled == false){
+                PauseMenu();
+            }
+            else
+            {
+                OnResumeButtonClicked();
+            }
         }
     }
 
@@ -100,6 +106,7 @@ UnityEditor.EditorApplication.isPlaying = false;
     {
         Time.timeScale = 1;
         PauseMenuCanvas.enabled = false;
+        Restart();
     }
 
 }
