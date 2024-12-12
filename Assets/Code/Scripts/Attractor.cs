@@ -11,7 +11,12 @@ public class Attractor : MonoBehaviour
 
     public float Radius = -1;  // radius skopiowany z collidera
 
+    [SerializeField]
+    ParticleSystem range;
+
     void Start() {
         Radius = GetComponent<SphereCollider>().radius;
+        var a = range.main;
+        a.startSizeMultiplier = Radius;
     }
 }
