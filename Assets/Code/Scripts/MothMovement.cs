@@ -17,6 +17,7 @@ public class MothMovement : MonoBehaviour
     private float CurrentEnergy = 50;
     public float MaxEnergy = 100;
     public float RechargingSpeedFactor = 1.0f;
+    public float DeathFallZone = -8;
 
     public float ForwardSpeed = 1;
     public float MaxHorizontalSpeed = 50;
@@ -134,6 +135,11 @@ public class MothMovement : MonoBehaviour
                     Flap(FlapForce * AttractionFlapForceMultiplier);
                 }
             }
+            if(transform.position.y< DeathFallZone)
+            {
+                source.PlayOneShot(DieFallSound, AudioListener.volume);
+                Death();
+            }
         }
 
         if (is_dead){
@@ -248,7 +254,6 @@ public class MothMovement : MonoBehaviour
     private void Death()
     {
         is_dead = true;
-        source.PlayOneShot(DieSound, AudioListener.volume);
         StartCoroutine(Fade());
     }
     
@@ -273,6 +278,7 @@ private IEnumerator Fade(){
     {
         if (other.CompareTag("LanternDeathZone"))
         {
+            source.PlayOneShot(DieSound, AudioListener.volume);
             Death();
             Debug.Log("Entered Death Zone");
             Debug.Log("Score: " + GameManager.Instance.GetScore(transform.position.z));
