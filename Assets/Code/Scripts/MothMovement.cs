@@ -158,9 +158,9 @@ public class MothMovement : MonoBehaviour
 
         if (is_dead){
             var step = 1000 * Time.deltaTime;
-            var camera = GameObject.Find("Main Camera").GetComponent<Transform>();
+            var camera = GameManager.Instance.cameraBox.transform;//GameObject.Find("Main Camera").GetComponent<Transform>();
             var rotation = Quaternion.LookRotation(transform.position - camera.position);
-            camera.rotation = Quaternion.Slerp(camera.rotation, rotation, Time.deltaTime * 6);
+            camera.rotation = Quaternion.Slerp(camera.rotation, rotation, Time.deltaTime);
         }
 
         AddGravity();
