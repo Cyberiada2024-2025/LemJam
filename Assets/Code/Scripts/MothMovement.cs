@@ -61,6 +61,8 @@ public class MothMovement : MonoBehaviour
     [SerializeField] private AudioClip VictorySound;
     [SerializeField] private AudioClip DieFallSound;
     [SerializeField] private AudioClip DieSound;
+
+    [SerializeField] private int satStr = 200;
     [SerializeField] private AudioClip FlapSound;
     [SerializeField] private AudioClip SrobkaSound;
 
@@ -77,7 +79,7 @@ public class MothMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(CurrentEnergy);
+        // Debug.Log(CurrentEnergy);
         TimeStamp += Time.deltaTime;
         if (!is_dead){ 
             CalculateAttractionForce();
@@ -235,7 +237,12 @@ public class MothMovement : MonoBehaviour
         {
             CurrentEnergy = MaxEnergy;
         }
-        //GameManager.Instance.postProcess.GetComponent<ColorAdjustments>().saturation.value = CurrentEnergy; 
+        if (GameManager.Instance.postProcess.profile.TryGet<ColorAdjustments>(out var colorAdjustments))
+        {
+            Debug.Log(Mathf.Clamp(finalForce*satStr, 0, 100));
+            colorAdjustments.saturation.value = Mathf.Clamp(finalForce*satStr, 0, 100);
+            // colorAdjustments.contrast.value = CurrentEnergy-50f *1.5f;
+        }
     }
 
 

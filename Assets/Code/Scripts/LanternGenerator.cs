@@ -37,7 +37,6 @@ public class LanternGenerator : MonoBehaviour
     {
         var prefab = LanternPrefabs[Random.Range(0,LanternPrefabs.Length)];
         var newPosition = GameManager.Instance.player.transform.position + offset + new Vector3(Random.Range(-RandomOffsetX, RandomOffsetX), Random.Range(-RandomOffsetY, RandomOffsetY), 0);
-        Debug.Log(newPosition);
         var lantern = Instantiate(prefab, newPosition, Quaternion.identity, transform);
         var lanternScript = lantern.GetComponent<LampionMovement>();
         lanternScript.max_height = -offset.y;
