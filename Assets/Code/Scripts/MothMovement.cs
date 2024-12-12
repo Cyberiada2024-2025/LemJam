@@ -273,7 +273,7 @@ public class MothMovement : MonoBehaviour
     private IEnumerator Fade(){
 		CanvasGroup canvasGroup = GameObject.Find("FadeToBlack").GetComponent<CanvasGroup>();
 		while (canvasGroup.alpha < 1){
-			canvasGroup.alpha += Time.deltaTime/3;
+			canvasGroup.alpha += Time.deltaTime/5;
 			yield return null;
 		}
         
@@ -290,10 +290,12 @@ public class MothMovement : MonoBehaviour
     {
         if (other.CompareTag("LanternDeathZone"))
         {
-            source.PlayOneShot(DieSound, AudioListener.volume);
-            Death();
-            Debug.Log("Entered Death Zone");
-            Debug.Log("Score: " + GameManager.Instance.GetScore(transform.position.z));
+            if (!is_dead) {
+                source.PlayOneShot(DieSound, AudioListener.volume);
+                Death();
+                Debug.Log("Entered Death Zone");
+                Debug.Log("Score: " + GameManager.Instance.GetScore(transform.position.z));
+            }
         }
         else if (other.CompareTag("Attractor")) {
             var attractor = other.GetComponent<Attractor>();
