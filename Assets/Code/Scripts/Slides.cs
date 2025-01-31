@@ -14,12 +14,13 @@ public class Slides : MonoBehaviour
 
     int index = 0;
 
+    [SerializeField]
     string[] texts =
     {
         "Trurl needs parts for a machine he is currently building.",
         "In desperation, he sends his Cybermoth for them.",
-        "Unfortunately, Klapaucius wants to ruin his plans and sends a ",
-        "Swarm of lanterns to his friend's envoy to distract the Cybermoth from her goal."
+        "Unfortunately, Klapaucius wants to ruin his plans.",
+        "He releases a swarm of lanterns to distract the Cybermoth from her goal."
     };
 
     private void Start()
