@@ -135,12 +135,11 @@ public class MothMovement : MonoBehaviour
                 currentRotation = -1;
             }
             if (attractionVector.y < 0) {
-                dashDescending -= attractionVector.y;
-                dashDescending = Mathf.Max(dashDescending, 0);
+                //dashDescending -= attractionVector.y;
+                //dashDescending = Mathf.Max(dashDescending, 0);
             } else if (attractionVector.y > 0) {
                 attractionFlapTimer += attractionVector.y * Time.deltaTime;
                 if (attractionFlapTimer >= AttractionFlapInterval && dashDescending <= 0.25) {
-                    attractionFlapTimer = 0;
                     Flap(FlapForce * AttractionFlapForceMultiplier);
                     CurrentEnergy += EnergyPerFlap;
                     CurrentEnergy -= EnergyPerFlap * 0.5f;
@@ -190,6 +189,8 @@ public class MothMovement : MonoBehaviour
     void Flap(float force) {
         if (Time.time - lastFlapTime > FlapCooldown && CurrentEnergy >= EnergyPerFlap) {
             //Debug.Log("flap");
+
+            attractionFlapTimer = 0;
             
             anim.SetTrigger("flap");
             rb.velocity = new Vector3(rb.velocity.x, force, 0);
