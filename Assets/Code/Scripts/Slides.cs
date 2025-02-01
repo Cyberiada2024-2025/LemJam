@@ -30,6 +30,13 @@ public class Slides : MonoBehaviour
         StartCoroutine(FadeIn());
     }
 
+    private void Update()
+    {
+        if (Input.anyKeyDown || Input.GetMouseButtonDown(0)) {
+            GameManager.Restart();  // skip cutscene
+        }
+    }
+
 
     private IEnumerator FadeIn()
     {
