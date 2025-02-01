@@ -94,7 +94,11 @@ public class GameManager : MonoBehaviour
 
     public int GetScore(float posZ)
     {
-        return (int)(MaxScore * (posZ - StartingZ) / (landingPoint.transform.position.z - StartingZ));
+        var score = (int)(MaxScore * (posZ - StartingZ) / (landingPoint.transform.position.z - StartingZ));
+        if (score >= 0.99f * MaxScore) {
+            score = MaxScore;
+        }
+        return score;
     }   
 
     public void OnExitButtonClicked()
